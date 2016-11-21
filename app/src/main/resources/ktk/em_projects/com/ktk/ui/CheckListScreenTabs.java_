@@ -1,0 +1,77 @@
+package ktk.em_projects.com.ktk.ui;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.RadioGroup;
+
+import ktk.em_projects.com.ktk.R;
+import ktk.em_projects.com.ktk.ui.fragments.DirtOvalFragment;
+import ktk.em_projects.com.ktk.ui.fragments.PavedOvalFragment;
+import ktk.em_projects.com.ktk.ui.fragments.SprintFragment;
+
+public class CheckListScreen extends Activity {
+
+    private RadioGroup tabsRadioGroup;
+
+    private PavedOvalFragment pavedOvalFragment;
+    private DirtOvalFragment dirtOvalFragment;
+    private SprintFragment sprintFragment;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.check_list_screen_tabs);
+
+        initTabs();
+
+        tabsRadioGroup = (RadioGroup) findViewById(R.id.tabsRadioGroup);
+        tabsRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                if(checkedId == R.id.pavedOvalRadioButton) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager
+                            .beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentContainerFrameLayout,
+                            pavedOvalFragment);
+                    fragmentTransaction.commit();
+                } else if (checkedId == R.id.dirtOvalRadioButton) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager
+                            .beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentContainerFrameLayout,
+                            dirtOvalFragment);
+                    fragmentTransaction.commit();
+                } else if (checkedId == R.id.springRadioButton) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager
+                            .beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentContainerFrameLayout,
+                            sprintFragment);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment currentHomeFragment = fragmentManager
+                .findFragmentById(R.id.fragmentContainerFrameLayout);
+        if (currentHomeFragment == null) {
+            FragmentTransaction fragmentTransaction = fragmentManager
+                    .beginTransaction();
+            fragmentTransaction.add(R.id.fragmentContainerFrameLayout,
+                    pavedOvalFragment);
+            fragmentTransaction.commit();
+        }
+    }
+
+    private void initTabs() {
+        pavedOvalFragment = new PavedOvalFragment();
+        dirtOvalFragment = new DirtOvalFragment();
+        sprintFragment = new SprintFragment();
+    }
+}

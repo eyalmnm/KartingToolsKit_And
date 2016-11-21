@@ -1,0 +1,28 @@
+# To enable ProGuard in your project, edit project.properties
+# to define the proguard.config property as described in that file.
+#
+# Add project specific ProGuard rules here.
+# By default, the flags in this file are appended to flags specified
+# in ${sdk.dir}/tools/proguard/proguard-android.txt
+# You can edit the include path and order by changing the ProGuard
+# include property in project.properties.
+#
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# Add any project specific keep options here:
+
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
+
+# http://stackoverflow.com/questions/28819959/realm-getinstancecontext-throws-annotation-processor-may-not-have-been-execute/29091275#29091275
+# Realm DB config ProGuard
+# Realm generates a proxy class for each RealmObject at compile time. To ensure that these classes can be found after running an obufuscation and static analysis tool like ProGuard add the configuration below to your ProGuard configuration file.
+-keepnames public class * extends io.realm.RealmObject
+-keep class io.realm.** { *; }
+-dontwarn javax.**
+-dontwarn io.realm.**

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="260dp"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/new_run_data"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/trackNameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/titleTextView"
+        android:layout_marginTop="14dp"
+        android:hint="@string/track_name"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/trackNameEditText"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/text_edit_white_bg"
+        android:padding="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/run_date"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/timeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/titleTextView"
+        android:layout_alignRight="@+id/titleTextView"
+        android:layout_alignTop="@+id/dateTextView"
+        android:layout_marginEnd="63dp"
+        android:layout_marginRight="63dp"
+        android:background="@drawable/text_edit_white_bg"
+        android:padding="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/run_time"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/totalRunTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/dateTextView"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/text_edit_white_bg"
+        android:inputType="time"
+        android:padding="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/total_run_time"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/bestLapTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/timeTextView"
+        android:layout_alignStart="@+id/timeTextView"
+        android:layout_alignTop="@+id/totalRunTimeTextView"
+        android:background="@drawable/text_edit_white_bg"
+        android:inputType="time"
+        android:padding="3dp"
+        android:text="@string/best_laps_time"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/totalLapsEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/totalRunTimeTextView"
+        android:layout_alignStart="@+id/totalRunTimeTextView"
+        android:layout_below="@+id/totalRunTimeTextView"
+        android:layout_marginTop="14dp"
+        android:layout_toLeftOf="@+id/bestLapTimeTextView"
+        android:layout_toStartOf="@+id/bestLapTimeTextView"
+        android:hint="@string/num_of_laps"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/trackConditionRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/totalRunTimeTextView"
+        android:layout_alignStart="@+id/totalRunTimeTextView"
+        android:layout_below="@+id/totalLapsEditText"
+        android:layout_marginTop="14dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:text="@string/track_condition"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <RadioGroup
+        android:id="@+id/trackConditionRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/trackConditionRadioButton"
+        android:layout_alignTop="@+id/trackConditionRadioButton"
+        android:layout_toEndOf="@+id/trackConditionRadioButton"
+        android:layout_toRightOf="@+id/trackConditionRadioButton"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/dryRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/white"
+            android:button="@drawable/done_choose_chbox_selector"
+            android:checked="true"
+            android:text="@string/dry"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/wetRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/white"
+            android:button="@drawable/done_choose_chbox_selector"
+            android:checked="false"
+            android:text="@string/wet"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/gearRatioEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/totalRunTimeTextView"
+        android:layout_alignLeft="@+id/trackConditionRadioButton"
+        android:layout_alignRight="@+id/totalRunTimeTextView"
+        android:layout_alignStart="@+id/trackConditionRadioButton"
+        android:layout_below="@+id/trackConditionRadioButton"
+        android:layout_marginTop="14dp"
+        android:hint="@string/gear_ratio"
+        android:inputType="numberDecimal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/rsJettingEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/okImageButton"
+        android:layout_alignEnd="@+id/trackNameEditText"
+        android:layout_alignLeft="@+id/bestLapTimeTextView"
+        android:layout_alignRight="@+id/trackNameEditText"
+        android:layout_alignStart="@+id/bestLapTimeTextView"
+        android:hint="@string/rs_jetting"
+        android:inputType="numberDecimal"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/okImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gearRatioEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        android:background="@drawable/button_white_bg"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        android:src="@drawable/save" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/trackConditionRadioGroup"
+        android:layout_alignRight="@+id/trackConditionRadioGroup"
+        android:layout_alignTop="@+id/okButton"
+        android:text="@android:string/cancel"
+        android:visibility="gone" />
+
+    <ktk.em_projects.com.ktk.ui.widgets.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/smoothProgressbar"
+        style="@style/GNowProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_alignParentTop="true"
+        android:indeterminate="true"
+        android:indeterminateOnly="false"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Kart Tools Kit</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Main Activity -->
+    <string name="rs_jetting">RS Jetting</string>
+
+    <!-- Check List Screen -->
+    <string name="paved_oval">Paved Oval</string>
+    <string name="dirt_oval">Dirt Oval</string>
+    <string name="sprint">Spring</string>
+
+    <!-- Paved Oval Fragment -->
+    <string name="push_at_corner_entry">Push At Corner Entry</string>
+    <string name="push_at_corner_exit">Push At Corner Exit</string>
+    <string name="loose_at_corner_entry">Loose At Corner Entry</string>
+    <string name="loose_at_corner_exit">Loose At Corner Exit</string>
+
+    <!-- Dirt Oval Fragment -->
+    <string name="four_wheel_drift">Four Wheel Drift</string>
+
+    <!--Weather Screen-->
+    <string name="weather_title">Weather Conditions</string>
+
+    <!-- Hour Weather Info Item -->
+    <string name="observation_time">Time</string>
+    <string name="pressure">Pressure</string>
+    <string name="wind_speed">Wind Speed</string>
+    <string name="wind_direction">Wind Direction</string>
+    <string name="jetting">Rotax Max SR Jet</string>
+    <string name="map_normal">Normal</string>
+    <string name="map_satellite">Satellite</string>
+    <string name="map_terrain">Terrain</string>
+
+    <!-- Fuel Oil Mix Screen -->
+    <string name="oil_percentage">Oil Percentage</string>
+    <string name="oil_ratio">Oil Ratio (Fuel for 1 part of Oil)</string>
+    <string name="oil_percentage_ratio_hint">Oil Percentage / Ratio</string>
+    <string name="fuel_quantity">Fuel Quantity (in Liters)</string>
+    <string name="oil_quantity">Oil Quantity</string>
+
+    <!-- Gear Ratio Screen -->
+    <string name="front_sprocket">Front Sprocket Teeth Count</string>
+    <string name="main_sprocket">Rear Sprocket Teeth Count</string>
+    <string name="gear_ratio">Gear Ratio</string>
+
+    <!-- Flags Screen -->
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="caution">Caution</string>
+    <string name="leave_the_track">Leave The Track</string>
+    <string name="move_to_the_outside">Move To The Outside</string>
+    <string name="one_lap_to_go">One Lap To Go</string>
+    <string name="finish">Finish</string>
+
+    <!-- Hall Of Fame Screen -->
+    <string name="new_run_data">New Run Data</string>
+    <string name="track_name">Track Name</string>
+    <string name="run_date">Date</string>
+    <string name="run_time">Time</string>
+    <string name="total_run_time">Total Time</string>
+    <string name="num_of_laps">Num of Laps</string>
+    <string name="best_laps_time">Best Lap Time</string>
+    <string name="track_condition">Track is</string>
+    <string name="dry">Dry</string>
+    <string name="wet">Wet</string>
+    <string name="save">Save</string>
+    <string name="track_name_hint">Track Name (* = All)</string>
+    
+    <!-- Hall Of Fame Details -->
+    <string name="hof_run_data">Run Data</string>
+    
+    <!-- Stop Watch Screen -->
+    <string name="pause">Pause</string>
+    <string name="reset">Reset</string>
+    <string name="lap">Lap</string>
+    <string name="empty">Empty</string>
+
+</resources>

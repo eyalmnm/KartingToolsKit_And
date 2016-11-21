@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/ktk.em_projects.com.ktk"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp"
+    android:paddingBottom="5dp">
+    <!-- android:layout_marginTop="@dimen/activity_horizontal_margin" -->
+
+    <TextView
+        android:id="@+id/screenTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/weather_title"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/middleOne"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true" />
+
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/middleOne"
+        android:layout_below="@id/screenTitleTextView"
+        android:layout_marginBottom="10dp" />
+    
+    <Button 
+        android:id="@+id/terrainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/middleOne"
+        android:layout_alignParentLeft="true"
+        android:text="@string/map_terrain" />
+    
+    <Button 
+        android:id="@+id/normalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/middleOne"
+        android:layout_centerHorizontal="true"
+        android:text="@string/map_normal" />
+    
+    <Button 
+        android:id="@+id/satteliteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/middleOne"
+        android:layout_alignParentRight="true"
+        android:text="@string/map_satellite" />
+
+    <TextView
+        android:id="@+id/latitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/map"
+        android:layout_below="@id/map"
+        android:layout_marginBottom="15dp"
+        android:text="latitude"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/longitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/latitudeTextView"
+        android:layout_centerHorizontal="true"
+        android:text="longitude"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/altitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/latitudeTextView"
+        android:layout_alignRight="@id/map"
+        android:text="altitude"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="14sp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/weatherViewPager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/latitudeTextView"
+        android:background="#ddd" />
+
+    <ktk.em_projects.com.ktk.ui.widgets.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:padding="10dip"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        app:fillColor="@color/holo_red_dark"
+        app:strokeColor="@color/dark_gray" />
+
+
+    <ktk.em_projects.com.ktk.ui.widgets.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/smoothProgressbar"
+        style="@style/GNowProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:indeterminate="true"
+        android:layout_alignParentTop="true"
+        android:indeterminateOnly="false" />
+
+</RelativeLayout>

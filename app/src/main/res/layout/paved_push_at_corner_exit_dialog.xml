@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Push At Corner Exit"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/firstLineCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:button="@drawable/done_choose_chbox_selector"
+        android:text="Increase front weight percentage"
+        android:textColor="@android:color/black" />
+
+    <CheckBox
+        android:id="@+id/secondLineCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:button="@drawable/done_choose_chbox_selector"
+        android:text="Increase right rear tire pressure"
+        android:textColor="@android:color/black" />
+
+    <CheckBox
+        android:id="@+id/thirdLineCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:button="@drawable/done_choose_chbox_selector"
+        android:text="Increase stagger"
+        android:textColor="@android:color/black" />
+
+    <CheckBox
+        android:id="@+id/fourthLineCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:button="@drawable/done_choose_chbox_selector"
+        android:text="Move right front wheel out"
+        android:textColor="@android:color/black" />
+
+    <CheckBox
+        android:id="@+id/fifthLineCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:button="@drawable/done_choose_chbox_selector"
+        android:text="Decrease cross weight"
+        android:textColor="@android:color/black" />
+
+    <CheckBox
+        android:id="@+id/sixthLineCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:button="@drawable/done_choose_chbox_selector"
+        android:text="Decrease front stagger"
+        android:textColor="@android:color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/okButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@android:string/ok" />
+
+    </LinearLayout>
+
+</LinearLayout>

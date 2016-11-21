@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_enable">#525558</color>
+    <color name="text_disable">#c0c0c0</color>
+
+    <drawable name="tab_disable">#525558</drawable>
+    <drawable name="tab_enable">#c0c0c0</drawable>
+
+</resources>
