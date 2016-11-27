@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/maintanence_icon" />
+            android:src="@drawable/track_icon" />
 
         <ImageButton
             android:id="@+id/onMapImageButton"
