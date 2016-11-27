@@ -47,11 +47,11 @@ public class HallOfFameDetailDialog extends DialogFragment {
         timeTextView.setText(hallOfFameHolder.getmTimeStr());
         totalRunTimeTextView.setText(hallOfFameHolder.getmTotalRunTimeStr());
         bestLapTimeTextView.setText(hallOfFameHolder.getmBestLapTimeStr());
-        totalLapsEditText.setText(hallOfFameHolder.getmNumOfLaps());
+        totalLapsEditText.setText(String.valueOf(hallOfFameHolder.getmNumOfLaps()));
         dryRadioButton.setChecked(hallOfFameHolder.ismDryTrack());
         wetRadioButton.setChecked(!hallOfFameHolder.ismDryTrack());
-        gearRatioEditText.setText(hallOfFameHolder.getmGearRatio() + "");
-        rsJettingEditText.setText(hallOfFameHolder.getmSrJetting());
+        gearRatioEditText.setText(String.valueOf(hallOfFameHolder.getmGearRatio()));
+        rsJettingEditText.setText(String.valueOf(hallOfFameHolder.getmSrJetting()));
                 
         return view;
     }

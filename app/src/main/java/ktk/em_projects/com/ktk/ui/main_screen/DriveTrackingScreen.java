@@ -64,6 +64,9 @@ public class DriveTrackingScreen extends Activity {
 	
 	// For retrieving location from GoogleServices
 	private GoogleApiClient googleApiClient;
+
+	// Screen's UI components
+	private TextView elapsedTimeTextView;
 	
 	private MapFragment mapFragment;
 	private GoogleMap googleMap;
@@ -81,7 +84,7 @@ public class DriveTrackingScreen extends Activity {
 		public void onServiceDisconnected(ComponentName name) {
 
 		}
-	}
+	};
 	
 	// Use for retrieve the current state and update the screen every period of time.
 	private Handler handler = new Handler() {
@@ -90,9 +93,10 @@ public class DriveTrackingScreen extends Activity {
             sendMessageDelayed(Message.obtain(this, TICK_WHAT), FREQUENCY);
         }
     };
-    
-    // Screen's UI components
-    private TextView elapsedTimeTextView
+
+	private void updateView() {
+		Log.e(TAG, "updateView NOT IMPLEMENTED"); // TODO
+	}
 	
 	
 	@Override
@@ -117,11 +121,19 @@ public class DriveTrackingScreen extends Activity {
         googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 	}
 
+	private void bindSensorsClientService() {
+		Log.e(TAG, "bindSensorsClientService NOT IMPLEMENTED"); // TODO
+	}
+
 
 	@Override
 	protected void onDestroy() {
         EasyTracker.getInstance(this).activityStop(this);
         unbindSensorsClientService();
 		super.onDestroy();
+	}
+
+	private void unbindSensorsClientService() {
+		Log.e(TAG, "unbindSensorsClientService NOT IMPLEMENTED"); // TODO
 	}
 }

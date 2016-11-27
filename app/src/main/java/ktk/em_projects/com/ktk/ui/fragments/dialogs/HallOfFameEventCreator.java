@@ -247,13 +247,16 @@ public class HallOfFameEventCreator extends Activity implements
 		} catch (Exception e) {
 		}
 		smoothProgressbar.setVisibility(View.VISIBLE);
-//		Realm realm = Realm.getInstance(context);
-//		realm.beginTransaction();
-//		HallOfFameHolder holder = realm.createObject(HallOfFameHolder.class);
-//		holder.setData(trackName, dateTime, timeStr, dateStr, totalRunTime, totalRunTimeStr, numOfLaps, bestLapTime, bestLapTimeStr, dryTrack, gearRatio, srJetting);
-//		realm.commitTransaction();		
 		HallOfFameHolder holder = new HallOfFameHolder();
-		holder.setData(trackName, dateTime, timeStr, dateStr, totalRunTime, totalRunTimeStr, numOfLaps, bestLapTime, bestLapTimeStr, dryTrack, gearRatio, srJetting);
+
+		holder.setData(trackName, dateTime, timeStr, dateStr, totalRunTime, totalRunTimeStr, numOfLaps,
+				bestLapTime, bestLapTimeStr, dryTrack, gearRatio, srJetting, tyresType, trackWeather,
+				trackTemperature, airTemperature, peakRPM, toeRight, toeLeft, camberCasterRight,
+				camberCasterLeft, mFrontSpacingRight, frontSpacingLeft, rearSpacingRight, rearSpacingLeft,
+				sprocketSize, rimSizeFront, rimSizeRear, tyreSizeFront, tyreSizeRear, tyrePressureFront,
+				tyrePressureRear, ballastRight, ballastLeft, stiffenerBar, seatPositionType);
+
+//		holder.setData(trackName, dateTime, timeStr, dateStr, totalRunTime, totalRunTimeStr, numOfLaps, bestLapTime, bestLapTimeStr, dryTrack, gearRatio, srJetting);
 		boolean success = HallOfFameDbHandler.getInstance(context).addHallOfFameRecord(holder);		
 		smoothProgressbar.setVisibility(View.GONE);
 		if(success) {
