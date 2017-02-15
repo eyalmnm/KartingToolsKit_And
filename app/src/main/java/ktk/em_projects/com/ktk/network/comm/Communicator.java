@@ -80,7 +80,6 @@ public class Communicator implements Runnable {
         sendRequest(Constants.SERVER.HTTP_POST, request, new UrlEncodedFormEntity(emNameValuePairs), null, commListener);
     }
 
-
     public void checkLogin(CommListener commListener) {
         String request = Constants.SERVER.URL + "/CheckLogin";
         ArrayList<NameValuePair> emNameValuePairs = new ArrayList<NameValuePair>(0);

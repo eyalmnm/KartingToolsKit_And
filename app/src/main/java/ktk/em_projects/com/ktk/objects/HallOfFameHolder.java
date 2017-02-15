@@ -2,8 +2,13 @@ package ktk.em_projects.com.ktk.objects;
 
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.Date;
+
+import ktk.em_projects.com.ktk.utils.JSONUtils;
 
 /**
  * Created by E M on 28/01/2015.
@@ -452,6 +457,88 @@ public class HallOfFameHolder implements Serializable /*extends RealmObject*/ {
 
     public void setmSeatPositionType(String mSeatPositionType) {
         this.mSeatPositionType = mSeatPositionType;
+    }
+
+    public JSONObject toJson() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", mId);
+        jsonObject.put("trackName", mTrackName);
+        jsonObject.put("dateTime", mDateTime.getTime());
+        jsonObject.put("timeStr", mTimeStr);
+        jsonObject.put("dateStr", mDateStr);
+        jsonObject.put("totalRunTime", mTotalRunTime);
+        jsonObject.put("totalRunTimeStr", mTotalRunTimeStr);
+        jsonObject.put("numOfLaps", mNumOfLaps);
+        jsonObject.put("bestLapTime", mBestLapTime);
+        jsonObject.put("bestLapTimeStr", mBestLapTimeStr);
+        jsonObject.put("dryTrack", mDryTrack);
+        jsonObject.put("gearRatio", mGearRatio);
+        jsonObject.put("srJetting", mSrJetting);
+        jsonObject.put("tyresType", mTyresType);
+        jsonObject.put("trackWeather", mTrackWeather);
+        jsonObject.put("trackTemperature", mTrackTemperature);
+        jsonObject.put("airTemperature", mAirTemperature);
+        jsonObject.put("peakRPM", mPeakRPM);
+        jsonObject.put("toeRight", mToeRight);
+        jsonObject.put("toeLeft", mToeLeft);
+        jsonObject.put("camberCasterRight", mCamberCasterRight);
+        jsonObject.put("camberCasterLeft", mCamberCasterLeft);
+        jsonObject.put("frontSpacingRight", mFrontSpacingRight);
+        jsonObject.put("frontSpacingLeft", mFrontSpacingLeft);
+        jsonObject.put("rearSpacingRight", mRearSpacingRight);
+        jsonObject.put("rearSpacingLeft", mRearSpacingLeft);
+        jsonObject.put("sprocketSize", mSprocketSize);
+        jsonObject.put("rimSizeFront", mRimSizeFront);
+        jsonObject.put("rimSizeRear", mRimSizeRear);
+        jsonObject.put("tyreSizeFront", mTyreSizeFront);
+        jsonObject.put("tyreSizeRear", mTyreSizeRear);
+        jsonObject.put("tyrePressureFront", mTyrePressureFront);
+        jsonObject.put("tyrePressureRear", mTyrePressureRear);
+        jsonObject.put("ballastRight", mBallastRight);
+        jsonObject.put("ballastLeft", mBallastLeft);
+        jsonObject.put("stiffenerBar", mStiffenerBar);
+        jsonObject.put("seatPositionType", mSeatPositionType);
+        return jsonObject;
+    }
+
+    public void setData(JSONObject json) {
+        mId = JSONUtils.getIntValue(json, "id");
+        mTrackName = JSONUtils.getStringValue(json, "trackName");
+        mDateTime = new Date(JSONUtils.getLongValue(json, "dateTime"));
+        mTimeStr = JSONUtils.getStringValue(json, "timeStr");
+        mDateStr = JSONUtils.getStringValue(json, "dateStr");
+        mTotalRunTime = JSONUtils.getLongValue(json, "totalRunTime");
+        mTotalRunTimeStr = JSONUtils.getStringValue(json, "totalRunTimeStr");
+        mNumOfLaps = JSONUtils.getIntValue(json, "numOfLaps");
+        mBestLapTime = JSONUtils.getLongValue(json, "bestLapTime");
+        mBestLapTimeStr = JSONUtils.getStringValue(json, "bestLapTimeStr");
+        mDryTrack = JSONUtils.getBooleanValue(json, "dryTrack");
+        mGearRatio = JSONUtils.getFloatValue(json, "gearRatio");
+        mSrJetting = JSONUtils.getIntValue(json, "srJetting");
+        mTyresType = JSONUtils.getStringValue(json, "tyresType");
+        mTrackWeather = JSONUtils.getStringValue(json, "trackWeather");
+        mTrackTemperature = JSONUtils.getFloatValue(json, "trackTemperature");
+        mAirTemperature = JSONUtils.getFloatValue(json, "airTemperature");
+        mPeakRPM = JSONUtils.getIntValue(json, "peakRPM");
+        mToeRight = JSONUtils.getFloatValue(json, "toeRight");
+        mToeLeft = JSONUtils.getFloatValue(json, "toeLeft");
+        mCamberCasterRight = JSONUtils.getFloatValue(json, "camberCasterRight");
+        mCamberCasterLeft = JSONUtils.getFloatValue(json, "camberCasterLeft");
+        mFrontSpacingRight = JSONUtils.getFloatValue(json, "frontSpacingRight");
+        mFrontSpacingLeft = JSONUtils.getFloatValue(json, "frontSpacingLeft");
+        mRearSpacingRight = JSONUtils.getFloatValue(json, "rearSpacingRight");
+        mRearSpacingLeft = JSONUtils.getFloatValue(json, "rearSpacingLeft");
+        mSprocketSize = JSONUtils.getIntValue(json, "sprocketSize");
+        mRimSizeFront = JSONUtils.getFloatValue(json, "rimSizeFront");
+        mRimSizeRear = JSONUtils.getFloatValue(json, "rimSizeRear");
+        mTyreSizeFront = JSONUtils.getFloatValue(json, "tyreSizeFront");
+        mTyreSizeRear = JSONUtils.getFloatValue(json, "tyreSizeRear");
+        mTyrePressureFront = JSONUtils.getFloatValue(json, "tyrePressureFront");
+        mTyrePressureRear = JSONUtils.getFloatValue(json, "tyrePressureRear");
+        mBallastRight = JSONUtils.getFloatValue(json, "ballastRight");
+        mBallastLeft = JSONUtils.getFloatValue(json, "ballastLeft");
+        mStiffenerBar = JSONUtils.getStringValue(json, "stiffenerBar");
+        mSeatPositionType = JSONUtils.getStringValue(json, "seatPositionType");
     }
 
     // DO NOT Delete the next 2 methods
