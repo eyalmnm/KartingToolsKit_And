@@ -19,17 +19,17 @@ package ktk.em_projects.com.ktk.sensors.sensor.observer;
 /**
  * An gravity sensor observer interface. Classes that need to observe the
  * acceleration sensor for updates should do so with this interface.
- * 
+ *
  * @author Kaleb
  * @version %I%, %G%
  */
-public interface GravitySensorObserver
-{
-	/**
-	 * Notify observers when new gravity measurements are available.
-	 * @param gravity the gravity values (x, y, z)
-	 * @param timeStamp the time of the sensor update.
-	 */
-	public void onGravitySensorChanged(float[] gravity,
-			long timeStamp);
+public interface GravitySensorObserver {
+    /**
+     * Notify observers when new gravity measurements are available.
+     *
+     * @param gravity   the gravity values (x, y, z)
+     * @param timeStamp the time of the sensor update.
+     */
+    public void onGravitySensorChanged(float[] gravity,
+                                       long timeStamp);
 }

@@ -28,22 +28,14 @@ import static ktk.em_projects.com.ktk.ui.widgets.smoothprogressbar.SmoothProgres
 public class CircularProgressDrawable extends Drawable
         implements Animatable {
 
-    public enum Style {NORMAL, ROUNDED}
-
-    public interface OnEndListener {
-        public void onEnd(CircularProgressDrawable drawable);
-    }
-
-    private static final ArgbEvaluator COLOR_EVALUATOR = new ArgbEvaluator();
     public static final Interpolator END_INTERPOLATOR = new LinearInterpolator();
+    private static final ArgbEvaluator COLOR_EVALUATOR = new ArgbEvaluator();
     private static final Interpolator DEFAULT_ROTATION_INTERPOLATOR = new LinearInterpolator();
     private static final Interpolator DEFAULT_SWEEP_INTERPOLATOR = new DecelerateInterpolator();
     private static final int ROTATION_ANIMATOR_DURATION = 2000;
     private static final int SWEEP_ANIMATOR_DURATION = 600;
     private static final int END_ANIMATOR_DURATION = 200;
-
     private final RectF fBounds = new RectF();
-
     private ValueAnimator mSweepAppearingAnimator;
     private ValueAnimator mSweepDisappearingAnimator;
     private ValueAnimator mRotationAnimator;
@@ -58,7 +50,6 @@ public class CircularProgressDrawable extends Drawable
     private float mCurrentRotationAngleOffset = 0;
     private float mCurrentRotationAngle = 0;
     private float mCurrentEndRatio = 1f;
-
     //params
     private Interpolator mAngleInterpolator;
     private Interpolator mSweepInterpolator;
@@ -69,7 +60,6 @@ public class CircularProgressDrawable extends Drawable
     private int mMinSweepAngle;
     private int mMaxSweepAngle;
     private boolean mFirstSweepAnimation;
-
     private CircularProgressDrawable(int[] colors,
                                      float borderWidth,
                                      float sweepSpeed,
@@ -155,9 +145,6 @@ public class CircularProgressDrawable extends Drawable
         mModeAppearing = false;
         mCurrentRotationAngleOffset = mCurrentRotationAngleOffset + (360 - mMaxSweepAngle);
     }
-
-    //////////////////////////////////////////////////////////////////////////////
-    ////////////////            Animation
 
     private void setupAnimations() {
         mRotationAnimator = ValueAnimator.ofFloat(0f, 360f);
@@ -313,6 +300,9 @@ public class CircularProgressDrawable extends Drawable
         invalidateSelf();
     }
 
+    //////////////////////////////////////////////////////////////////////////////
+    ////////////////            Animation
+
     @Override
     public void stop() {
         if (!isRunning()) {
@@ -382,6 +372,12 @@ public class CircularProgressDrawable extends Drawable
     private void setEndRatio(float ratio) {
         mCurrentEndRatio = ratio;
         invalidateSelf();
+    }
+
+    public enum Style {NORMAL, ROUNDED}
+
+    public interface OnEndListener {
+        public void onEnd(CircularProgressDrawable drawable);
     }
 
     public static class Builder {

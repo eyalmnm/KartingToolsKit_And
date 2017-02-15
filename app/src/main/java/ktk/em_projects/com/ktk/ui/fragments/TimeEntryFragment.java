@@ -25,32 +25,20 @@ public class TimeEntryFragment extends DialogFragment {
     private static final String TAG = "TimeEntryFragment";
 
     private final int PIN_LENGTH = 6;
-
-    public static interface TimeEntryListener {
-        public void setTimeEntry(String timeString, long timeLong, int requestCode);
-    }
-
     private TimeEntryListener listener;
-
     private String userEntered;
     private boolean keyPadLockedFlag = false;
-
     private Context appContext;
-
     private int requestCode = -1;
-
-//    private TextView titleView;
+    //    private TextView titleView;
     private TextView statusView;
-
     private TextView pinBox0;
     private TextView pinBox1;
     private TextView pinBox2;
     private TextView pinBox3;
     private TextView pinBox4;
     private TextView pinBox5;
-
     private TextView[] pinBoxArray;
-
     private Button buttonExit;
     private Button buttonDeleteBack;
     private Button button0;
@@ -63,7 +51,6 @@ public class TimeEntryFragment extends DialogFragment {
     private Button button7;
     private Button button8;
     private Button button9;
-
     public TimeEntryFragment() {
         requestCode = -1;
     }
@@ -82,9 +69,10 @@ public class TimeEntryFragment extends DialogFragment {
         this.requestCode = requestCode;
     }
 
-    @SuppressLint("InflateParams") @Override
+    @SuppressLint("InflateParams")
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	Log.d(TAG, "onCreateView");
+        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.time_entry_fragment, null);
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -252,7 +240,6 @@ public class TimeEntryFragment extends DialogFragment {
         return view;
     }
 
-
     private long calculateTime(String str0, String str1, String str2, String str3, String str4, String str5) {
         long retLong = 0;
         retLong += Integer.parseInt(str5) * 10;
@@ -262,5 +249,10 @@ public class TimeEntryFragment extends DialogFragment {
         retLong += Integer.parseInt(str1) * 60000;
         retLong += Integer.parseInt(str0) * 600000;
         return retLong;
+    }
+
+
+    public static interface TimeEntryListener {
+        public void setTimeEntry(String timeString, long timeLong, int requestCode);
     }
 }

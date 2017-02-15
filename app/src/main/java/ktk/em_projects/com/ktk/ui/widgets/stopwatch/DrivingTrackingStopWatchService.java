@@ -10,12 +10,12 @@ import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.ui.main_screen.DriveTrackingScreen;
 
 public class DrivingTrackingStopWatchService extends StopwatchService {
-	
-	private static final String TAG = "DrivingTrackingStopWatc";
+
+    private static final String TAG = "DrivingTrackingStopWatc";
 
     @SuppressWarnings("deprecation")
     @Override
-	public void updateNotification() {
+    public void updateNotification() {
         Log.d(TAG, "updating notification");
 
         Context context = getApplicationContext();
@@ -28,12 +28,6 @@ public class DrivingTrackingStopWatchService extends StopwatchService {
         // the next two lines initialize the Notification, using the configurations above
         m_notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
         m_notificationMgr.notify(NOTIFICATION_ID, m_notification);
-    }
-
-    public class LocalBinder extends Binder {
-        public DrivingTrackingStopWatchService getService() {
-            return DrivingTrackingStopWatchService.this;
-        }
     }
 
     public void start() {
@@ -66,5 +60,11 @@ public class DrivingTrackingStopWatchService extends StopwatchService {
 
     public boolean isStopwatchRunning() {
         return super.isStopwatchRunning();
+    }
+
+    public class LocalBinder extends Binder {
+        public DrivingTrackingStopWatchService getService() {
+            return DrivingTrackingStopWatchService.this;
+        }
     }
 }

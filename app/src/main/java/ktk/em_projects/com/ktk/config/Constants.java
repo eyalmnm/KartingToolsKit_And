@@ -7,6 +7,14 @@ public class Constants {
 
     public static final long HOUR_MILLIS = 1000 * 3600;
 
+    public static class SERVER {
+        public static final String URL = "";
+        public static final int PORT = 0;
+        public static final int HTTP_POST = 3213;
+        public static final int HTTP_GET = 3456;
+        public static final int SOCKET = 6456;
+    }
+
     public static class GOOGLE_ANALYTICS {
         public static final String KEY = "UA-58964964-1";
     }
@@ -44,15 +52,15 @@ public class Constants {
                 {178, 178, 178, 178, 175, 175, 175, 175, 175, 175, 175, 172, 172, 172, 172, 172, 172, 172, 170, 170, 170, 170, 170, 168, 168, 168, 168, 168, 168, 168, 165, 165, 165, 165, 165, 000, 162, 162, 162, 162, 162}    // 1040
         };
     }
-    
+
     public static class INTENT_DATA_NAME {
-    	public static final String TEMPERATURE_CELSIUS = "temperature_celsius";
-    	public static final String PRESSURE_MB = "pressure_mb";
-    	public static final String ROTATION = "rotation";
-    	public static final String ACCELERATION = "acceleration";
-    	public static final String GYROSCOPE = "gyroscope";
-    	public static final String POSITION = "position";
-    	public static final String WORKING_STATE = "working_state";
+        public static final String TEMPERATURE_CELSIUS = "temperature_celsius";
+        public static final String PRESSURE_MB = "pressure_mb";
+        public static final String ROTATION = "rotation";
+        public static final String ACCELERATION = "acceleration";
+        public static final String GYROSCOPE = "gyroscope";
+        public static final String POSITION = "position";
+        public static final String WORKING_STATE = "working_state";
         public static final String FILE_NAME = "file_name";
     }
 

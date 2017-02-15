@@ -51,18 +51,12 @@ public class SensorsClient extends Service {
 
     private static final String TAG = "SensorsClient";
     private static final int NOTIFICATION_ID = 10;
-
-    private final int SENSORS_STATE = 1;
-    private final int FILE_STATE = 2;
-
     private static final String KTK_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/ktk.em_projects.com.ktk/files/"; // "//ktk_storage//";
-
-
     private static final long mFrequency = 100;    // milliseconds
     private static final int TICK_WHAT = 10;
-
     private static final String NEW_LINE = "\n";
-
+    private final int SENSORS_STATE = 1;
+    private final int FILE_STATE = 2;
     private EnvironmentalSensor mEnvironmentalSensor;
     private MotionSensor mMotionSensor;
     private PositionSensor mPositionSensor;
@@ -136,24 +130,15 @@ public class SensorsClient extends Service {
 
         }
     };
-
-    public class LocalBinder extends Binder {
-        public SensorsClient getService() {
-            return SensorsClient.this;
-        }
-    }
-
     private File mFile;
     private String mFileName;
     private FileWriter mFileWriter;
     private FileInputStream mFileInputStream;
     private InputStreamReader mInputStreamReader;
     private BufferedReader mBufferedReader;
-
     private LocalBinder mBinder = new LocalBinder();
     private NotificationManager mNotificationManager;
     private Notification mNotification;
-
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -232,7 +217,6 @@ public class SensorsClient extends Service {
         mNotification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mNotification);
     }
-
 
     private void connectFile(Intent intent) {
         File dir = createDirIfNotExist(KTK_DIR);
@@ -533,6 +517,12 @@ public class SensorsClient extends Service {
                 Log.e(TAG, "stopRecording", e);
             }
             return true;
+        }
+    }
+
+    public class LocalBinder extends Binder {
+        public SensorsClient getService() {
+            return SensorsClient.this;
         }
     }
 }

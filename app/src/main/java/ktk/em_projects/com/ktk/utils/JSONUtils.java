@@ -176,7 +176,7 @@ public class JSONUtils {
 
     public static JSONArray convertToJsonArray(float[] floatArray) throws JSONException {
         JSONArray array = new JSONArray();
-        for (int i = 0; i < floatArray.length; i ++) {
+        for (int i = 0; i < floatArray.length; i++) {
             array.put(floatArray[i]);
         }
         return array;

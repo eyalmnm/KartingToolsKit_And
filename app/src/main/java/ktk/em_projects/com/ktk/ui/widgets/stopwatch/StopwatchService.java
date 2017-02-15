@@ -17,24 +17,16 @@ import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.ui.main_screen.StopwatchScreen;
 
 public class StopwatchService extends Service {
-    private static final String TAG = "StopwatchService";
     protected static final int NOTIFICATION_ID = 1;
-
-    public class LocalBinder extends Binder {
-        public StopwatchService getService() {
-            return StopwatchService.this;
-        }
-    }
-
-    private Stopwatch m_stopwatch;
-    private LocalBinder m_binder = new LocalBinder();
-    protected NotificationManager m_notificationMgr;
-    protected Notification m_notification;
-
+    private static final String TAG = "StopwatchService";
     // Timer to update the ongoing notification
     private final long mFrequency = 100;    // milliseconds
     private final int TICK_WHAT = 2;
-    @SuppressLint("HandlerLeak") 
+    protected NotificationManager m_notificationMgr;
+    protected Notification m_notification;
+    private Stopwatch m_stopwatch;
+    private LocalBinder m_binder = new LocalBinder();
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         public void handleMessage(Message m) {
             updateNotification();
@@ -69,7 +61,7 @@ public class StopwatchService extends Service {
     }
 
     @SuppressWarnings("deprecation")
-	public void createNotification() {
+    public void createNotification() {
         Log.d(TAG, "creating notification");
 
         int icon = R.drawable.ic_launcher;  //.stop_watch_icon;
@@ -82,7 +74,7 @@ public class StopwatchService extends Service {
     }
 
     @SuppressWarnings("deprecation")
-	public void updateNotification() {
+    public void updateNotification() {
         Log.d(TAG, "updating notification");
 
         Context context = getApplicationContext();
@@ -189,9 +181,15 @@ public class StopwatchService extends Service {
         return sb.toString();
     }
 
-    @SuppressLint("UseValueOf") 
+    @SuppressLint("UseValueOf")
     private String formatDigits(long num) {
         return (num < 10) ? "0" + num : new Long(num).toString();
+    }
+
+    public class LocalBinder extends Binder {
+        public StopwatchService getService() {
+            return StopwatchService.this;
+        }
     }
 
 

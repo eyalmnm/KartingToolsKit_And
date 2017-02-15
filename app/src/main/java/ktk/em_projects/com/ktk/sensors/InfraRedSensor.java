@@ -13,7 +13,7 @@ import ktk.em_projects.com.ktk.tools.bt_tools.BtIrReceiver;
  */
 public class InfraRedSensor extends Service {
 
-    private static final String TAG ="InfraRedSensor";
+    private static final String TAG = "InfraRedSensor";
 
     private BtIrReceiver mBtIrReceiver;
 

@@ -18,62 +18,62 @@ import android.util.Log;
 
 public class MotionSensor extends Service implements SensorEventListener {
 
-	private static final String TAG = "MotionSensor";
+    private static final String TAG = "MotionSensor";
 
-	private SensorManager sensorManager;
+    private SensorManager sensorManager;
 
-	private float[] rotation;
-	private float[] acceleration;
-	private float[] gyro;
-	
-	private LocalBinder binder = new LocalBinder();
+    private float[] rotation;
+    private float[] acceleration;
+    private float[] gyro;
 
-	@Override
-	public void onCreate() {
-		Log.d(TAG, "onCreate");
-		super.onCreate();
-		sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
-		Sensor rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-		Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-		Sensor gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-		if (rotationSensor != null) {
-			sensorManager.registerListener(this, rotationSensor, SensorManager.SENSOR_DELAY_GAME);
-		}
-		if (accelerometerSensor != null) {
-			sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
-		}
-		if (gyroscopeSensor != null) {
-			sensorManager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_GAME);
-		}
-	}
+    private LocalBinder binder = new LocalBinder();
 
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(TAG, "onStartCommand");
-		return super.onStartCommand(intent, flags, startId);
-		// return Service.START_STICKY;
-	}
+    @Override
+    public void onCreate() {
+        Log.d(TAG, "onCreate");
+        super.onCreate();
+        sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
+        Sensor rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        Sensor gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        if (rotationSensor != null) {
+            sensorManager.registerListener(this, rotationSensor, SensorManager.SENSOR_DELAY_GAME);
+        }
+        if (accelerometerSensor != null) {
+            sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
+        }
+        if (gyroscopeSensor != null) {
+            sensorManager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_GAME);
+        }
+    }
 
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		transmitEventValue(event);
-	}
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand");
+        return super.onStartCommand(intent, flags, startId);
+        // return Service.START_STICKY;
+    }
 
-	private void transmitEventValue(SensorEvent event) {
-		if (event.accuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH
-				|| event.accuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
-			if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-				rotation = event.values;
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        transmitEventValue(event);
+    }
+
+    private void transmitEventValue(SensorEvent event) {
+        if (event.accuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH
+                || event.accuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
+            if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+                rotation = event.values;
 //				sendRotationUpdate(rotation);
-			} else if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-				acceleration = event.values;
+            } else if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+                acceleration = event.values;
 //				sendAccelerometerUpdate(acceleration);
-			} else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-				gyro = event.values;
+            } else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                gyro = event.values;
 //				sendGyroscopeUpdate(gyro);
-			}
-		}
-	}
+            }
+        }
+    }
 
 //	private void sendGyroscopeUpdate(float[] gyro2) {
 //		Intent intent = new Intent(GyroReceiver.getAction());
@@ -93,36 +93,36 @@ public class MotionSensor extends Service implements SensorEventListener {
 //		sendBroadcast(intent);
 //	}
 
-	public float[] getRotation() {
-		return rotation;
-	}
+    public float[] getRotation() {
+        return rotation;
+    }
 
-	public float[] getAcceleration() {
-		return acceleration;
-	}
+    public float[] getAcceleration() {
+        return acceleration;
+    }
 
-	public float[] getGyro() {
-		return gyro;
-	}
+    public float[] getGyro() {
+        return gyro;
+    }
 
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-	}
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
 
-	@Override
-	public IBinder onBind(Intent intent) {
-		return binder;
-	}
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		sensorManager.unregisterListener(this);
-	}
-	
-	public class LocalBinder extends Binder {
-		public MotionSensor getService() {
-			return MotionSensor.this;
-		}
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sensorManager.unregisterListener(this);
+    }
+
+    public class LocalBinder extends Binder {
+        public MotionSensor getService() {
+            return MotionSensor.this;
+        }
+    }
 }

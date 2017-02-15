@@ -66,72 +66,22 @@ public class TitlePageIndicator extends View implements PageIndicator {
      * Title text used when no title is provided by the adapter.
      */
     private static final String EMPTY_TITLE = "";
-
-    /**
-     * Interface for a callback when the center item has been clicked.
-     */
-    public interface OnCenterItemClickListener {
-        /**
-         * Callback when the center item has been clicked.
-         *
-         * @param position Position of the current center item.
-         */
-        void onCenterItemClick(int position);
-    }
-
-    public enum IndicatorStyle {
-        None(0), Triangle(1), Underline(2);
-
-        public final int value;
-
-        private IndicatorStyle(int value) {
-            this.value = value;
-        }
-
-        public static IndicatorStyle fromValue(int value) {
-            for (IndicatorStyle style : IndicatorStyle.values()) {
-                if (style.value == value) {
-                    return style;
-                }
-            }
-            return null;
-        }
-    }
-
-    public enum LinePosition {
-        Bottom(0), Top(1);
-
-        public final int value;
-
-        private LinePosition(int value) {
-            this.value = value;
-        }
-
-        public static LinePosition fromValue(int value) {
-            for (LinePosition position : LinePosition.values()) {
-                if (position.value == value) {
-                    return position;
-                }
-            }
-            return null;
-        }
-    }
-
+    private static final int INVALID_POINTER = -1;
+    private final Paint mPaintText = new Paint();
+    private final Rect mBounds = new Rect();
+    private final Paint mPaintFooterLine = new Paint();
+    private final Paint mPaintFooterIndicator = new Paint();
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;
     private int mCurrentPage = -1;
     private float mPageOffset;
     private int mScrollState;
-    private final Paint mPaintText = new Paint();
     private boolean mBoldText;
     private int mColorText;
     private int mColorSelected;
     private Path mPath = new Path();
-    private final Rect mBounds = new Rect();
-    private final Paint mPaintFooterLine = new Paint();
     private IndicatorStyle mFooterIndicatorStyle;
     private LinePosition mLinePosition;
-    private final Paint mPaintFooterIndicator = new Paint();
     private float mFooterIndicatorHeight;
     private float mFooterIndicatorUnderlinePadding;
     private float mFooterPadding;
@@ -142,27 +92,20 @@ public class TitlePageIndicator extends View implements PageIndicator {
      */
     private float mClipPadding;
     private float mFooterLineHeight;
-
-    private static final int INVALID_POINTER = -1;
-
     private int mTouchSlop;
     private float mLastMotionX = -1;
     private int mActivePointerId = INVALID_POINTER;
     private boolean mIsDragging;
-
     private OnCenterItemClickListener mCenterItemClickListener;
-
-
     public TitlePageIndicator(Context context) {
         this(context, null);
     }
-
     public TitlePageIndicator(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.vpiTitlePageIndicatorStyle);
     }
 
     @SuppressWarnings("deprecation")
-	public TitlePageIndicator(Context context, AttributeSet attrs, int defStyle) {
+    public TitlePageIndicator(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         if (isInEditMode()) return;
 
@@ -220,7 +163,6 @@ public class TitlePageIndicator extends View implements PageIndicator {
         final ViewConfiguration configuration = ViewConfiguration.get(context);
         mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
     }
-
 
     public int getFooterColor() {
         return mPaintFooterLine.getColor();
@@ -342,13 +284,13 @@ public class TitlePageIndicator extends View implements PageIndicator {
         invalidate();
     }
 
+    public Typeface getTypeface() {
+        return mPaintText.getTypeface();
+    }
+
     public void setTypeface(Typeface typeface) {
         mPaintText.setTypeface(typeface);
         invalidate();
-    }
-
-    public Typeface getTypeface() {
-        return mPaintText.getTypeface();
     }
 
     /*
@@ -357,7 +299,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
      * @see android.view.View#onDraw(android.graphics.Canvas)
      */
     @SuppressWarnings("incomplete-switch")
-	@Override
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
@@ -548,7 +490,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility") 
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(android.view.MotionEvent ev) {
         if (super.onTouchEvent(ev)) {
             return true;
@@ -832,7 +774,76 @@ public class TitlePageIndicator extends View implements PageIndicator {
         return savedState;
     }
 
+    private CharSequence getTitle(int i) {
+        CharSequence title = mViewPager.getAdapter().getPageTitle(i);
+        if (title == null) {
+            title = EMPTY_TITLE;
+        }
+        return title;
+    }
+
+    public enum IndicatorStyle {
+        None(0), Triangle(1), Underline(2);
+
+        public final int value;
+
+        private IndicatorStyle(int value) {
+            this.value = value;
+        }
+
+        public static IndicatorStyle fromValue(int value) {
+            for (IndicatorStyle style : IndicatorStyle.values()) {
+                if (style.value == value) {
+                    return style;
+                }
+            }
+            return null;
+        }
+    }
+
+    public enum LinePosition {
+        Bottom(0), Top(1);
+
+        public final int value;
+
+        private LinePosition(int value) {
+            this.value = value;
+        }
+
+        public static LinePosition fromValue(int value) {
+            for (LinePosition position : LinePosition.values()) {
+                if (position.value == value) {
+                    return position;
+                }
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Interface for a callback when the center item has been clicked.
+     */
+    public interface OnCenterItemClickListener {
+        /**
+         * Callback when the center item has been clicked.
+         *
+         * @param position Position of the current center item.
+         */
+        void onCenterItemClick(int position);
+    }
+
     static class SavedState extends BaseSavedState {
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         int currentPage;
 
         public SavedState(Parcelable superState) {
@@ -849,25 +860,5 @@ public class TitlePageIndicator extends View implements PageIndicator {
             super.writeToParcel(dest, flags);
             dest.writeInt(currentPage);
         }
-
-        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-    }
-
-    private CharSequence getTitle(int i) {
-        CharSequence title = mViewPager.getAdapter().getPageTitle(i);
-        if (title == null) {
-            title = EMPTY_TITLE;
-        }
-        return title;
     }
 }

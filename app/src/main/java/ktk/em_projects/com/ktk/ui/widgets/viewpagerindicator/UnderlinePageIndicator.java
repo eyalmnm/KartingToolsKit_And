@@ -48,18 +48,6 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
     private int mFadeDelay;
     private int mFadeLength;
     private int mFadeBy;
-
-    private ViewPager mViewPager;
-    private ViewPager.OnPageChangeListener mListener;
-    private int mScrollState;
-    private int mCurrentPage;
-    private float mPositionOffset;
-
-    private int mTouchSlop;
-    private float mLastMotionX = -1;
-    private int mActivePointerId = INVALID_POINTER;
-    private boolean mIsDragging;
-
     private final Runnable mFadeRunnable = new Runnable() {
         @Override
         public void run() {
@@ -73,6 +61,15 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
             }
         }
     };
+    private ViewPager mViewPager;
+    private ViewPager.OnPageChangeListener mListener;
+    private int mScrollState;
+    private int mCurrentPage;
+    private float mPositionOffset;
+    private int mTouchSlop;
+    private float mLastMotionX = -1;
+    private int mActivePointerId = INVALID_POINTER;
+    private boolean mIsDragging;
 
     public UnderlinePageIndicator(Context context) {
         this(context, null);
@@ -83,7 +80,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
     }
 
     @SuppressWarnings("deprecation")
-	public UnderlinePageIndicator(Context context, AttributeSet attrs, int defStyle) {
+    public UnderlinePageIndicator(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         if (isInEditMode()) return;
 
@@ -183,7 +180,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         canvas.drawRect(left, top, right, bottom, mPaint);
     }
 
-    @SuppressLint("ClickableViewAccessibility") 
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent ev) {
         if (super.onTouchEvent(ev)) {
             return true;
@@ -376,6 +373,17 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
     }
 
     static class SavedState extends BaseSavedState {
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         int currentPage;
 
         public SavedState(Parcelable superState) {
@@ -392,17 +400,5 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
             super.writeToParcel(dest, flags);
             dest.writeInt(currentPage);
         }
-
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 }

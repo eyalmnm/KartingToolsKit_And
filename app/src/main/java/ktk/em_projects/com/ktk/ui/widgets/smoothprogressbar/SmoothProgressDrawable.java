@@ -28,15 +28,8 @@ import static ktk.em_projects.com.ktk.ui.widgets.smoothprogressbar.SmoothProgres
  */
 public class SmoothProgressDrawable extends Drawable implements Animatable {
 
-    public interface Callbacks {
-        public void onStop();
-
-        public void onStart();
-    }
-
     private static final long FRAME_DURATION = 1000 / 60;
     private final static float OFFSET_PER_FRAME = 0.01f;
-
     private final Rect fBackgroundRect = new Rect();
     private Callbacks mCallbacks;
     private Interpolator mInterpolator;
@@ -60,6 +53,33 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     private boolean mProgressiveStartActivated;
     private int mStartSection;
     private int mCurrentSections;
+    private final Runnable mUpdater = new Runnable() {
+
+        @Override
+        public void run() {
+            if (isFinishing()) {
+                mFinishingOffset += (OFFSET_PER_FRAME * mProgressiveStopSpeed);
+                mCurrentOffset += (OFFSET_PER_FRAME * mProgressiveStopSpeed);
+                if (mFinishingOffset >= 1f) {
+                    stop();
+                }
+            } else if (isStarting()) {
+                mCurrentOffset += (OFFSET_PER_FRAME * mProgressiveStartSpeed);
+            } else {
+                mCurrentOffset += (OFFSET_PER_FRAME * mSpeed);
+            }
+
+            if (mCurrentOffset >= mMaxOffset) {
+                mNewTurn = true;
+                mCurrentOffset -= mMaxOffset;
+            }
+
+            if (isRunning())
+                scheduleSelf(mUpdater, SystemClock.uptimeMillis() + FRAME_DURATION);
+
+            invalidateSelf();
+        }
+    };
     private float mStrokeWidth;
     private Drawable mBackgroundDrawable;
     private boolean mUseGradients;
@@ -121,15 +141,6 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         invalidateSelf();
     }
 
-    public void setColors(int[] colors) {
-        if (colors == null || colors.length == 0)
-            throw new IllegalArgumentException("Colors cannot be null or empty");
-        mColorsIndex = 0;
-        mColors = colors;
-        refreshLinearGradientOptions();
-        invalidateSelf();
-    }
-
     public void setColor(int color) {
         setColors(new int[]{color});
     }
@@ -168,12 +179,6 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         invalidateSelf();
     }
 
-    public void setStrokeWidth(float strokeWidth) {
-        if (strokeWidth < 0) throw new IllegalArgumentException("The strokeWidth must be >= 0");
-        mPaint.setStrokeWidth(strokeWidth);
-        invalidateSelf();
-    }
-
     public void setReversed(boolean reversed) {
         if (mReversed == reversed) return;
         mReversed = reversed;
@@ -186,22 +191,37 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         invalidateSelf();
     }
 
+    public Drawable getBackgroundDrawable() {
+        return mBackgroundDrawable;
+    }
+
     public void setBackgroundDrawable(Drawable backgroundDrawable) {
         if (mBackgroundDrawable == backgroundDrawable) return;
         mBackgroundDrawable = backgroundDrawable;
         invalidateSelf();
     }
 
-    public Drawable getBackgroundDrawable() {
-        return mBackgroundDrawable;
-    }
-
     public int[] getColors() {
         return mColors;
     }
 
+    public void setColors(int[] colors) {
+        if (colors == null || colors.length == 0)
+            throw new IllegalArgumentException("Colors cannot be null or empty");
+        mColorsIndex = 0;
+        mColors = colors;
+        refreshLinearGradientOptions();
+        invalidateSelf();
+    }
+
     public float getStrokeWidth() {
         return mStrokeWidth;
+    }
+
+    public void setStrokeWidth(float strokeWidth) {
+        if (strokeWidth < 0) throw new IllegalArgumentException("The strokeWidth must be >= 0");
+        mPaint.setStrokeWidth(strokeWidth);
+        invalidateSelf();
     }
 
     public void setProgressiveStartActivated(boolean progressiveStartActivated) {
@@ -559,48 +579,26 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         return mFinishing;
     }
 
-    private final Runnable mUpdater = new Runnable() {
-
-        @Override
-        public void run() {
-            if (isFinishing()) {
-                mFinishingOffset += (OFFSET_PER_FRAME * mProgressiveStopSpeed);
-                mCurrentOffset += (OFFSET_PER_FRAME * mProgressiveStopSpeed);
-                if (mFinishingOffset >= 1f) {
-                    stop();
-                }
-            } else if (isStarting()) {
-                mCurrentOffset += (OFFSET_PER_FRAME * mProgressiveStartSpeed);
-            } else {
-                mCurrentOffset += (OFFSET_PER_FRAME * mSpeed);
-            }
-
-            if (mCurrentOffset >= mMaxOffset) {
-                mNewTurn = true;
-                mCurrentOffset -= mMaxOffset;
-            }
-
-            if (isRunning())
-                scheduleSelf(mUpdater, SystemClock.uptimeMillis() + FRAME_DURATION);
-
-            invalidateSelf();
-        }
-    };
-
-    ////////////////////////////////////////////////////////////////////////////
-    ///////////////////     Listener
-
     public void setCallbacks(Callbacks callbacks) {
         mCallbacks = callbacks;
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    ///////////////////     Checks
+    ///////////////////     Listener
 
     private void checkColorIndex(int index) {
         if (index < 0 || index >= mColors.length) {
             throw new IllegalArgumentException(String.format("Index %d not valid", index));
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ///////////////////     Checks
+
+    public interface Callbacks {
+        public void onStop();
+
+        public void onStart();
     }
 
     ////////////////////////////////////////////////////////////////////////////

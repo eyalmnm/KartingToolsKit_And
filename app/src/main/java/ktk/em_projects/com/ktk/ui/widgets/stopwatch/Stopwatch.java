@@ -6,14 +6,6 @@ import java.util.List;
 public class Stopwatch {
 
     /**
-     * Implements a method that returns the current time, in milliseconds.
-     * Used for testing
-     */
-    public interface GetTime {
-        public long now();
-    }
-
-    /**
      * Default way to get time. Just use the system clock.
      */
     private GetTime SystemTime = new GetTime() {
@@ -22,28 +14,18 @@ public class Stopwatch {
             return System.currentTimeMillis();
         }
     };
-
-    /**
-     * What is the stopwatch doing?
-     */
-    public enum State {
-        PAUSED, RUNNING
-    }
-
-    ;
-
     private GetTime m_time;
     private long m_startTime;
+
+    ;
     private long m_stopTime;
     private long m_pauseOffset;
     private List<Long> m_laps = new ArrayList<Long>();
     private State m_state;
-
     public Stopwatch() {
         m_time = SystemTime;
         reset();
     }
-
     public Stopwatch(GetTime time) {
         m_time = time;
         reset();
@@ -115,5 +97,20 @@ public class Stopwatch {
      */
     public boolean isRunning() {
         return (m_state == State.RUNNING);
+    }
+
+    /**
+     * What is the stopwatch doing?
+     */
+    public enum State {
+        PAUSED, RUNNING
+    }
+
+    /**
+     * Implements a method that returns the current time, in milliseconds.
+     * Used for testing
+     */
+    public interface GetTime {
+        public long now();
     }
 }

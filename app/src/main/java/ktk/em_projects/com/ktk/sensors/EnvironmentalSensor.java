@@ -17,54 +17,54 @@ import android.util.Log;
 
 public class EnvironmentalSensor extends Service implements SensorEventListener {
 
-	private static final String TAG = "EnvironmentalSensor";
+    private static final String TAG = "EnvironmentalSensor";
 
-	private SensorManager sensorManager;
+    private SensorManager sensorManager;
 
-	private float pressureMb = 0;
-	private float temperatureCelsius = 0;
+    private float pressureMb = 0;
+    private float temperatureCelsius = 0;
 
-	private LocalBinder binder = new LocalBinder();
+    private LocalBinder binder = new LocalBinder();
 
-	@Override
-	public void onCreate() {
-		Log.d(TAG, "onCreate");
-		super.onCreate();
-		sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
-		Sensor pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-		Sensor temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-		if (pressureSensor != null) {
-			sensorManager.registerListener(this, pressureSensor, SensorManager.SENSOR_DELAY_GAME);
-		}
-		if (temperatureSensor != null) {
-			sensorManager.registerListener(this, temperatureSensor, SensorManager.SENSOR_DELAY_GAME);
-		}
-	}
+    @Override
+    public void onCreate() {
+        Log.d(TAG, "onCreate");
+        super.onCreate();
+        sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
+        Sensor pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        Sensor temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        if (pressureSensor != null) {
+            sensorManager.registerListener(this, pressureSensor, SensorManager.SENSOR_DELAY_GAME);
+        }
+        if (temperatureSensor != null) {
+            sensorManager.registerListener(this, temperatureSensor, SensorManager.SENSOR_DELAY_GAME);
+        }
+    }
 
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(TAG, "onStartCommand");
-		return super.onStartCommand(intent, flags, startId);
-		// return Service.START_STICKY;
-	}
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand");
+        return super.onStartCommand(intent, flags, startId);
+        // return Service.START_STICKY;
+    }
 
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		transmitEventValue(event);
-	}
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        transmitEventValue(event);
+    }
 
-	private void transmitEventValue(SensorEvent event) {
-		if (event.accuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH
-				|| event.accuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
-			if (event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
-				temperatureCelsius = event.values[0];
+    private void transmitEventValue(SensorEvent event) {
+        if (event.accuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH
+                || event.accuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
+            if (event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
+                temperatureCelsius = event.values[0];
 //				sendTemperatureUpdate(temperatureCelsius);
-			} else if (event.sensor.getType() == Sensor.TYPE_PRESSURE) {
-				pressureMb = event.values[0];
+            } else if (event.sensor.getType() == Sensor.TYPE_PRESSURE) {
+                pressureMb = event.values[0];
 //				sendPressureUpdate(pressureMb);
-			}
-		}
-	}
+            }
+        }
+    }
 
 //	private void sendTemperatureUpdate(float temperatureCelsius2) {
 //		Intent intent = new Intent(TemperatureReceiver.getAction());
@@ -78,33 +78,33 @@ public class EnvironmentalSensor extends Service implements SensorEventListener 
 //		sendBroadcast(intent);
 //	}
 
-	public float getTemperatureCelsius() {
-		return temperatureCelsius;
-	}
+    public float getTemperatureCelsius() {
+        return temperatureCelsius;
+    }
 
-	public float getPressureMb() {
-		return pressureMb;
-	}
+    public float getPressureMb() {
+        return pressureMb;
+    }
 
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-	}
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
 
-	@Override
-	public IBinder onBind(Intent intent) {
-		Log.d(TAG, "bound");
-		return binder;
-	}
+    @Override
+    public IBinder onBind(Intent intent) {
+        Log.d(TAG, "bound");
+        return binder;
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		sensorManager.unregisterListener(this);
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sensorManager.unregisterListener(this);
+    }
 
-	public class LocalBinder extends Binder {
-		public EnvironmentalSensor getService() {
-			return EnvironmentalSensor.this;
-		}
-	}
+    public class LocalBinder extends Binder {
+        public EnvironmentalSensor getService() {
+            return EnvironmentalSensor.this;
+        }
+    }
 }

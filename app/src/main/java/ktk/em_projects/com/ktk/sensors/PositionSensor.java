@@ -70,7 +70,7 @@ public class PositionSensor extends Service implements GoogleApiClient.Connectio
         mConnected = false;
     }
 
-    public Location getLocation () {
+    public Location getLocation() {
         if (mConnected) {
             return LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         } else {

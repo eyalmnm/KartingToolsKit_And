@@ -123,6 +123,18 @@ public class WeatherScreen extends Activity {
 
     private Context context;
 
+    public static int getJetValue(int pressure, float tempC) {
+        int thePressure = NumberUtils.roundToNext5(pressure);
+        // int[][] myArray = new int[rows][cols];
+        int index = (thePressure - 930) / 5;
+        try {
+            return Constants.ROTAX_FR125_MAX_JET_TUNING_CHART.VALUES[index][(int) tempC];
+        } catch (Throwable tr) {
+            Log.e(TAG, "getJetValue pressure: " + pressure + " thePressure: " + thePressure + " index: " + index + " tempC: " + tempC, tr);
+        }
+        return -1;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -375,18 +387,6 @@ public class WeatherScreen extends Activity {
         ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
                 .requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0l,
                         0f, locationListener);
-    }
-
-    public static int getJetValue(int pressure, float tempC) {
-        int thePressure = NumberUtils.roundToNext5(pressure);
-        // int[][] myArray = new int[rows][cols];
-        int index = (thePressure - 930) / 5;
-        try {
-            return Constants.ROTAX_FR125_MAX_JET_TUNING_CHART.VALUES[index][(int) tempC];
-        } catch (Throwable tr) {
-            Log.e(TAG, "getJetValue pressure: " + pressure + " thePressure: " + thePressure + " index: " + index + " tempC: " + tempC, tr);
-        }
-        return -1;
     }
 
     @Override

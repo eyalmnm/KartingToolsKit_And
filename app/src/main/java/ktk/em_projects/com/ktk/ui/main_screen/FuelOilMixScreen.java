@@ -26,7 +26,7 @@ public class FuelOilMixScreen extends Activity {
     private static final String TAG = "FuelOilMixScreen";
 
     private RadioGroup calculationOptionsRadioGroup;
-//    private RadioButton oilPercentageRadioButton;
+    //    private RadioButton oilPercentageRadioButton;
 //    private RadioButton oilRatioRadioButton;
     private EditText oilPercentageEditText;
     private EditText fuelQuantityEditText;

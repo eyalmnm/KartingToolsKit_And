@@ -28,7 +28,7 @@ public class StringUtils {
 
     public static boolean isReadableCharacters(String string) {
         String pattern = "^[a-zA-Z0-9:<>]*$";
-        return  (string.matches(pattern));
+        return (string.matches(pattern));
     }
 
     public static boolean isContainsInArray(String[] stringArray, String str) {
@@ -156,7 +156,7 @@ public class StringUtils {
 
     public static String HexStringToString(String hex) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < hex.length()-1; i += 2) {
+        for (int i = 0; i < hex.length() - 1; i += 2) {
             char a = hex.charAt(i);
             char b = hex.charAt(i + 1);
             sb.append((char) ((NumberUtils.hexToInt(a) << 4) | NumberUtils.hexToInt(b)));

@@ -54,86 +54,86 @@ import ktk.em_projects.com.ktk.sensors.SensorsClient;
 // Ref: http://stackoverflow.com/questions/8132198/how-to-calculate-distance-travelled
 
 public class DriveTrackingScreen extends Activity {
-	
-	private static final String TAG = "DriveTrackingScreen";
-	
-	private static final long FREQUENCY = 100;    // milliseconds
-	private static final int TICK_WHAT = 2;
-	
-	private Context context;
-	
-	// For retrieving location from GoogleServices
-	private GoogleApiClient googleApiClient;
 
-	// Screen's UI components
-	private TextView elapsedTimeTextView;
-	
-	private MapFragment mapFragment;
-	private GoogleMap googleMap;
-	private Location lastBestLocation;
+    private static final String TAG = "DriveTrackingScreen";
 
-	// For retrieving sensors data;
-	private SensorsClient sensorsClient;
-	private ServiceConnection SensorsClientServiceConnection = new ServiceConnection() {
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
+    private static final long FREQUENCY = 100;    // milliseconds
+    private static final int TICK_WHAT = 2;
 
-		}
+    private Context context;
 
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
+    // For retrieving location from GoogleServices
+    private GoogleApiClient googleApiClient;
 
-		}
-	};
-	
-	// Use for retrieve the current state and update the screen every period of time.
-	private Handler handler = new Handler() {
+    // Screen's UI components
+    private TextView elapsedTimeTextView;
+
+    private MapFragment mapFragment;
+    private GoogleMap googleMap;
+    private Location lastBestLocation;
+
+    // For retrieving sensors data;
+    private SensorsClient sensorsClient;
+    private ServiceConnection SensorsClientServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+    // Use for retrieve the current state and update the screen every period of time.
+    private Handler handler = new Handler() {
         public void handleMessage(Message m) {
             updateView();
             sendMessageDelayed(Message.obtain(this, TICK_WHAT), FREQUENCY);
         }
     };
 
-	private void updateView() {
-		Log.e(TAG, "updateView NOT IMPLEMENTED"); // TODO
-	}
-	
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		Log.d(TAG, "onCreate");
-		setContentView(R.layout.drive_tracking_screen);
-				
-		context = this;
-		
-		// Google Analytics tracking
-		EasyTracker.getInstance(this).activityStart(this);
-		
-		// Initial Sensors Client service.
+    private void updateView() {
+        Log.e(TAG, "updateView NOT IMPLEMENTED"); // TODO
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
+        setContentView(R.layout.drive_tracking_screen);
+
+        context = this;
+
+        // Google Analytics tracking
+        EasyTracker.getInstance(this).activityStart(this);
+
+        // Initial Sensors Client service.
         startService(new Intent(this, SensorsClient.class));
         bindSensorsClientService();
-        
+
         // Initial screen's components (Map and other UI Components)
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         // Getting reference to google map
         googleMap = mapFragment.getMap();
         googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-	}
+    }
 
-	private void bindSensorsClientService() {
-		Log.e(TAG, "bindSensorsClientService NOT IMPLEMENTED"); // TODO
-	}
+    private void bindSensorsClientService() {
+        Log.e(TAG, "bindSensorsClientService NOT IMPLEMENTED"); // TODO
+    }
 
 
-	@Override
-	protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         EasyTracker.getInstance(this).activityStop(this);
         unbindSensorsClientService();
-		super.onDestroy();
-	}
+        super.onDestroy();
+    }
 
-	private void unbindSensorsClientService() {
-		Log.e(TAG, "unbindSensorsClientService NOT IMPLEMENTED"); // TODO
-	}
+    private void unbindSensorsClientService() {
+        Log.e(TAG, "unbindSensorsClientService NOT IMPLEMENTED"); // TODO
+    }
 }

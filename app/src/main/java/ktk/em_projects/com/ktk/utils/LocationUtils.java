@@ -39,12 +39,12 @@ public class LocationUtils {
         return null;
     }
 
-    public static float getAbeamPlus (float angle) {
+    public static float getAbeamPlus(float angle) {
         float ang = angle + 90;
-        return  (ang % 360);
+        return (ang % 360);
     }
 
-    public static float getAbeanMinus (float angle) {
+    public static float getAbeanMinus(float angle) {
         float ang = angle + 270;
         return (ang % 360);
     }

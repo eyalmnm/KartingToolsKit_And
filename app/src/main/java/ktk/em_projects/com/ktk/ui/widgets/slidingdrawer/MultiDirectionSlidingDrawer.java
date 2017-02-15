@@ -28,7 +28,7 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
     public static final int ORIENTATION_BTT = 1;
     public static final int ORIENTATION_LTR = 2;
     public static final int ORIENTATION_TTB = 3;
-
+    public static final String LOG_TAG = "Sliding";
     private static final int TAP_THRESHOLD = 6;
     private static final float MAXIMUM_TAP_VELOCITY = 100.0f;
     private static final float MAXIMUM_MINOR_VELOCITY = 150.0f;
@@ -37,23 +37,21 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
     private static final int VELOCITY_UNITS = 1000;
     private static final int MSG_ANIMATE = 1000;
     private static final int ANIMATION_FRAME_DURATION = 1000 / 60;
-
     private static final int EXPANDED_FULL_OPEN = -10001;
     private static final int COLLAPSED_FULL_CLOSED = -10002;
-
     private final int mHandleId;
     private final int mContentId;
-
-    private View mHandle;
-    private View mContent;
-
     private final Rect mFrame = new Rect();
     private final Rect mInvalidate = new Rect();
+    private final Handler mHandler = new SlidingHandler();
+    private final int mTapThreshold;
+    private final int mMaximumTapVelocity;
+    private final int mVelocityUnits;
+    private View mHandle;
+    private View mContent;
     private boolean mTracking;
     private boolean mLocked;
-
     private VelocityTracker mVelocityTracker;
-
     private boolean mInvert;
     private boolean mVertical;
     private boolean mExpanded;
@@ -61,12 +59,9 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
     private int mTopOffset;
     private int mHandleHeight;
     private int mHandleWidth;
-
     private OnDrawerOpenListener mOnDrawerOpenListener;
     private OnDrawerCloseListener mOnDrawerCloseListener;
     private OnDrawerScrollListener mOnDrawerScrollListener;
-
-    private final Handler mHandler = new SlidingHandler();
     private float mAnimatedAcceleration;
     private float mAnimatedVelocity;
     private float mAnimationPosition;
@@ -76,51 +71,9 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
     private boolean mAnimating;
     private boolean mAllowSingleTap;
     private boolean mAnimateOnClick;
-
-    private final int mTapThreshold;
-    private final int mMaximumTapVelocity;
     private int mMaximumMinorVelocity;
     private int mMaximumMajorVelocity;
     private int mMaximumAcceleration;
-    private final int mVelocityUnits;
-
-    /**
-     * Callback invoked when the drawer is opened.
-     */
-    public static interface OnDrawerOpenListener {
-
-        /**
-         * Invoked when the drawer becomes fully open.
-         */
-        public void onDrawerOpened();
-    }
-
-    /**
-     * Callback invoked when the drawer is closed.
-     */
-    public static interface OnDrawerCloseListener {
-
-        /**
-         * Invoked when the drawer becomes fully closed.
-         */
-        public void onDrawerClosed();
-    }
-
-    /**
-     * Callback invoked when the drawer is scrolled.
-     */
-    public static interface OnDrawerScrollListener {
-
-        /**
-         * Invoked when the user starts dragging/flinging the drawer's handle.
-         */
-        public void onScrollStarted();
-
-        /**
-         * Invoked when the user stops dragging/flinging the drawer's handle.
-         */
-        public void onScrollEnded();
-    }
 
     /**
      * Creates a new SlidingDrawer from a specified set of attributes defined in
@@ -268,8 +221,6 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
             drawChild(canvas, mContent, drawingTime);
         }
     }
-
-    public static final String LOG_TAG = "Sliding";
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -994,6 +945,44 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
      */
     public boolean isMoving() {
         return mTracking || mAnimating;
+    }
+
+    /**
+     * Callback invoked when the drawer is opened.
+     */
+    public static interface OnDrawerOpenListener {
+
+        /**
+         * Invoked when the drawer becomes fully open.
+         */
+        public void onDrawerOpened();
+    }
+
+    /**
+     * Callback invoked when the drawer is closed.
+     */
+    public static interface OnDrawerCloseListener {
+
+        /**
+         * Invoked when the drawer becomes fully closed.
+         */
+        public void onDrawerClosed();
+    }
+
+    /**
+     * Callback invoked when the drawer is scrolled.
+     */
+    public static interface OnDrawerScrollListener {
+
+        /**
+         * Invoked when the user starts dragging/flinging the drawer's handle.
+         */
+        public void onScrollStarted();
+
+        /**
+         * Invoked when the user stops dragging/flinging the drawer's handle.
+         */
+        public void onScrollEnded();
     }
 
     private class DrawerToggler implements OnClickListener {

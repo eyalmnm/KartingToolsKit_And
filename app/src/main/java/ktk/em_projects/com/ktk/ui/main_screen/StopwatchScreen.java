@@ -24,7 +24,9 @@ import ktk.em_projects.com.ktk.ui.widgets.stopwatch.StopwatchService;
 
 public class StopwatchScreen extends ListActivity {
     private static String TAG = "StopwatchActivity";
-
+    // Timer to update the elapsedTime display
+    private final long mFrequency = 100;    // milliseconds
+    private final int TICK_WHAT = 2;
     // View elements in stopwatch.xml
     private TextView m_elapsedTime;
     private Button m_start;
@@ -32,20 +34,15 @@ public class StopwatchScreen extends ListActivity {
     private Button m_reset;
     private Button m_lap;
     private ArrayAdapter<String> m_lapList;
-
-    // Timer to update the elapsedTime display
-    private final long mFrequency = 100;    // milliseconds
-    private final int TICK_WHAT = 2;
-    @SuppressLint("HandlerLeak") 
+    // Connection to the backgorund StopwatchService
+    private StopwatchService m_stopwatchService;
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         public void handleMessage(Message m) {
             updateElapsedTime();
             sendMessageDelayed(Message.obtain(this, TICK_WHAT), mFrequency);
         }
     };
-
-    // Connection to the backgorund StopwatchService
-    private StopwatchService m_stopwatchService;
     private ServiceConnection m_stopwatchServiceConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -71,7 +68,7 @@ public class StopwatchScreen extends ListActivity {
     }
 
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stop_watch_screen);
@@ -189,13 +186,13 @@ public class StopwatchScreen extends ListActivity {
         if (m_stopwatchService != null)
             m_elapsedTime.setText(m_stopwatchService.getFormattedElapsedTime());
     }
-	
-	@Override
-	public void onBackPressed() {
-		Intent intent = new Intent(this, MainActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
-		finish();
-	}
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
 
 }

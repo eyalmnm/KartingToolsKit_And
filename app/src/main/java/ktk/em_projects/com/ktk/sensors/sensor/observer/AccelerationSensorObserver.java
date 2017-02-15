@@ -19,17 +19,17 @@ package ktk.em_projects.com.ktk.sensors.sensor.observer;
 /**
  * An acceleration sensor observer interface. Classes that need to observe the
  * acceleration sensor for updates should do so with this interface.
- * 
+ *
  * @author Kaleb
  * @version %I%, %G%
  */
-public interface AccelerationSensorObserver
-{
-	/**
-	 * Notify observers when new acceleration measurements are available.
-	 * @param acceleration the acceleration values (x, y, z)
-	 * @param timeStamp the time of the sensor update.
-	 */
-	public void onAccelerationSensorChanged(float[] acceleration,
-			long timeStamp);
+public interface AccelerationSensorObserver {
+    /**
+     * Notify observers when new acceleration measurements are available.
+     *
+     * @param acceleration the acceleration values (x, y, z)
+     * @param timeStamp    the time of the sensor update.
+     */
+    public void onAccelerationSensorChanged(float[] acceleration,
+                                            long timeStamp);
 }

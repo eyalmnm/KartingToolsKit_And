@@ -37,126 +37,126 @@ import ktk.em_projects.com.ktk.ui.main_screen.WeatherScreen;
 
 public class MainActivity extends Activity {
 
-	private ImageButton checkListImageButton;
-	private ImageButton weatherImageButton;
-	private ImageButton stopWatchImageButton;
+    private ImageButton checkListImageButton;
+    private ImageButton weatherImageButton;
+    private ImageButton stopWatchImageButton;
 
-	private ImageButton fuelImageButton;
-	private ImageButton gearImageButton;
-	private ImageButton flagsImageButton;
+    private ImageButton fuelImageButton;
+    private ImageButton gearImageButton;
+    private ImageButton flagsImageButton;
 
-	private ImageButton hallOfFameImageButton;
-	private ImageButton driveTrackingImageButton;
-	private ImageButton onMapImageButton;
+    private ImageButton hallOfFameImageButton;
+    private ImageButton driveTrackingImageButton;
+    private ImageButton onMapImageButton;
 
-	private ImageButton settingsImageButton;
+    private ImageButton settingsImageButton;
 
-	private Context context;
+    private Context context;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_activity);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
 
-		context = this;
+        context = this;
 
-		EasyTracker.getInstance(context).activityStart(this);
+        EasyTracker.getInstance(context).activityStart(this);
 
-		checkListImageButton = (ImageButton) findViewById(R.id.checkListImageButton);
-		weatherImageButton = (ImageButton) findViewById(R.id.weatherImageButton);
-		stopWatchImageButton = (ImageButton) findViewById(R.id.stopWatchImageButton);
+        checkListImageButton = (ImageButton) findViewById(R.id.checkListImageButton);
+        weatherImageButton = (ImageButton) findViewById(R.id.weatherImageButton);
+        stopWatchImageButton = (ImageButton) findViewById(R.id.stopWatchImageButton);
 
-		fuelImageButton = (ImageButton) findViewById(R.id.fuelImageButton);
-		gearImageButton = (ImageButton) findViewById(R.id.gearImageButton);
-		flagsImageButton = (ImageButton) findViewById(R.id.flagsImageButton);
+        fuelImageButton = (ImageButton) findViewById(R.id.fuelImageButton);
+        gearImageButton = (ImageButton) findViewById(R.id.gearImageButton);
+        flagsImageButton = (ImageButton) findViewById(R.id.flagsImageButton);
 
-		hallOfFameImageButton = (ImageButton) findViewById(R.id.hallOfFameImageButton);
-		driveTrackingImageButton = (ImageButton) findViewById(R.id.driveTrackingImageButton);
-		onMapImageButton = (ImageButton) findViewById(R.id.onMapImageButton);
+        hallOfFameImageButton = (ImageButton) findViewById(R.id.hallOfFameImageButton);
+        driveTrackingImageButton = (ImageButton) findViewById(R.id.driveTrackingImageButton);
+        onMapImageButton = (ImageButton) findViewById(R.id.onMapImageButton);
 
-		settingsImageButton = (ImageButton) findViewById(R.id.settingsImageButton);
+        settingsImageButton = (ImageButton) findViewById(R.id.settingsImageButton);
 
-		checkListImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(context, CheckListScreen.class);
-				startActivity(intent);
-				overridePendingTransition(R.layout.fadein, R.layout.fadeout);
-			}
-		});
-		weatherImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(context, WeatherScreen.class);
-				startActivity(intent);
-				overridePendingTransition(R.layout.fadein, R.layout.fadeout);
-			}
-		});
-		stopWatchImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(context, StopwatchScreen.class);
-				startActivity(intent);
-				overridePendingTransition(R.layout.fadein, R.layout.fadeout);
-			}
-		});
-		fuelImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(context, FuelOilMixScreen.class);
-				startActivity(intent);
-				overridePendingTransition(R.layout.fadein, R.layout.fadeout);
-			}
-		});
-		gearImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(context, GearRatioScreen.class);
-				startActivity(intent);
-				overridePendingTransition(R.layout.fadein, R.layout.fadeout);
-			}
-		});
-		flagsImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(context, FlagsScreen.class);
-				startActivity(intent);
-				overridePendingTransition(R.layout.fadein, R.layout.fadeout);
-			}
-		});
-		hallOfFameImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(context, HallOfFameScreen.class); // HallOfFameEventCreator.class);
-				startActivity(intent);
-				overridePendingTransition(R.layout.fadein, R.layout.fadeout);
-			}
-		});
-		driveTrackingImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(context, DriveTrackingScreen.class);
-				startActivity(intent);
-				overridePendingTransition(R.layout.fadein, R.layout.fadeout);
-			}
-		});
-		onMapImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				// TODO implement this method.
-			}
-		});
-		settingsImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				// TODO implement this method.
-			}
-		});
-	}
+        checkListImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, CheckListScreen.class);
+                startActivity(intent);
+                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+            }
+        });
+        weatherImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, WeatherScreen.class);
+                startActivity(intent);
+                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+            }
+        });
+        stopWatchImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, StopwatchScreen.class);
+                startActivity(intent);
+                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+            }
+        });
+        fuelImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, FuelOilMixScreen.class);
+                startActivity(intent);
+                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+            }
+        });
+        gearImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, GearRatioScreen.class);
+                startActivity(intent);
+                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+            }
+        });
+        flagsImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, FlagsScreen.class);
+                startActivity(intent);
+                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+            }
+        });
+        hallOfFameImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, HallOfFameScreen.class); // HallOfFameEventCreator.class);
+                startActivity(intent);
+                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+            }
+        });
+        driveTrackingImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DriveTrackingScreen.class);
+                startActivity(intent);
+                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+            }
+        });
+        onMapImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO implement this method.
+            }
+        });
+        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO implement this method.
+            }
+        });
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		EasyTracker.getInstance(context).activityStop(this);
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EasyTracker.getInstance(context).activityStop(this);
+    }
 }

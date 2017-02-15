@@ -262,164 +262,164 @@ public class HallOfFameHolder implements Serializable /*extends RealmObject*/ {
         this.mSrJetting = mSrJetting;
     }
 
-    public void setmTyresType(String mTyresType) {
-        this.mTyresType = mTyresType;
-    }
-
     public String getmTyresType() {
         return mTyresType;
     }
 
-    public void setmTrackWeather(String mTrackWeather) {
-        this.mTrackWeather = mTrackWeather;
+    public void setmTyresType(String mTyresType) {
+        this.mTyresType = mTyresType;
     }
 
     public String getmTrackWeather() {
         return mTrackWeather;
     }
 
-    public void setmTrackTemperature(float mTrackTemperature) {
-        this.mTrackTemperature = mTrackTemperature;
+    public void setmTrackWeather(String mTrackWeather) {
+        this.mTrackWeather = mTrackWeather;
     }
 
     public float getmTrackTemperature() {
         return mTrackTemperature;
     }
 
-    public void setmAirTemperature(float mAirTemperature) {
-        this.mAirTemperature = mAirTemperature;
+    public void setmTrackTemperature(float mTrackTemperature) {
+        this.mTrackTemperature = mTrackTemperature;
     }
 
     public float getmAirTemperature() {
         return mAirTemperature;
     }
 
-    public void setmPeakRPM(int mPeakRPM) {
-        this.mPeakRPM = mPeakRPM;
+    public void setmAirTemperature(float mAirTemperature) {
+        this.mAirTemperature = mAirTemperature;
     }
 
     public int getmPeakRPM() {
         return mPeakRPM;
     }
 
-    public void setmToeRight(float mToeRight) {
-        this.mToeRight = mToeRight;
+    public void setmPeakRPM(int mPeakRPM) {
+        this.mPeakRPM = mPeakRPM;
     }
 
     public float getmToeRight() {
         return mToeRight;
     }
 
-    public void setmToeLeft(float mToeLeft) {
-        this.mToeLeft = mToeLeft;
+    public void setmToeRight(float mToeRight) {
+        this.mToeRight = mToeRight;
     }
 
     public float getmToeLeft() {
         return mToeLeft;
     }
 
-    public void setmCamberCasterRight(float mCamberCasterRight) {
-        this.mCamberCasterRight = mCamberCasterRight;
+    public void setmToeLeft(float mToeLeft) {
+        this.mToeLeft = mToeLeft;
     }
 
     public float getmCamberCasterRight() {
         return mCamberCasterRight;
     }
 
-    public void setmCamberCasterLeft(float mCamberCasterLeft) {
-        this.mCamberCasterLeft = mCamberCasterLeft;
+    public void setmCamberCasterRight(float mCamberCasterRight) {
+        this.mCamberCasterRight = mCamberCasterRight;
     }
 
     public float getmCamberCasterLeft() {
         return mCamberCasterLeft;
     }
 
-    public void setmFrontSpacingRight(float mFrontSpacingRight) {
-        this.mFrontSpacingRight = mFrontSpacingRight;
+    public void setmCamberCasterLeft(float mCamberCasterLeft) {
+        this.mCamberCasterLeft = mCamberCasterLeft;
     }
 
     public float getmFrontSpacingRight() {
         return mFrontSpacingRight;
     }
 
-    public void setmFrontSpacingLeft(float mFrontSpacingLeft) {
-        this.mFrontSpacingLeft = mFrontSpacingLeft;
+    public void setmFrontSpacingRight(float mFrontSpacingRight) {
+        this.mFrontSpacingRight = mFrontSpacingRight;
     }
 
     public float getmFrontSpacingLeft() {
         return mFrontSpacingLeft;
     }
 
-    public void setmRearSpacingRight(float mRearSpacingRight) {
-        this.mRearSpacingRight = mRearSpacingRight;
+    public void setmFrontSpacingLeft(float mFrontSpacingLeft) {
+        this.mFrontSpacingLeft = mFrontSpacingLeft;
     }
 
     public float getmRearSpacingRight() {
         return mRearSpacingRight;
     }
 
-    public void setmRearSpacingLeft(float mRearSpacingLeft) {
-        this.mRearSpacingLeft = mRearSpacingLeft;
+    public void setmRearSpacingRight(float mRearSpacingRight) {
+        this.mRearSpacingRight = mRearSpacingRight;
     }
 
     public float getmRearSpacingLeft() {
         return mRearSpacingLeft;
     }
 
-    public void setmSprocketSize(int mSprocketSize) {
-        this.mSprocketSize = mSprocketSize;
+    public void setmRearSpacingLeft(float mRearSpacingLeft) {
+        this.mRearSpacingLeft = mRearSpacingLeft;
     }
 
     public int getmSprocketSize() {
         return mSprocketSize;
     }
 
-    public void setmRimSizeFront(float mRimSizeFront) {
-        this.mRimSizeFront = mRimSizeFront;
+    public void setmSprocketSize(int mSprocketSize) {
+        this.mSprocketSize = mSprocketSize;
     }
 
     public float getmRimSizeFront() {
         return mRimSizeFront;
     }
 
-    public void setmRimSizeRear(float mRimSizeRear) {
-        this.mRimSizeRear = mRimSizeRear;
+    public void setmRimSizeFront(float mRimSizeFront) {
+        this.mRimSizeFront = mRimSizeFront;
     }
 
     public float getmRimSizeRear() {
         return mRimSizeRear;
     }
 
-    public void setmTyreSizeFront(float mTyreSizeFront) {
-        this.mTyreSizeFront = mTyreSizeFront;
+    public void setmRimSizeRear(float mRimSizeRear) {
+        this.mRimSizeRear = mRimSizeRear;
     }
 
     public float getmTyreSizeFront() {
         return mTyreSizeFront;
     }
 
-    public void setmTyreSizeRear(float mTyreSizeRear) {
-        this.mTyreSizeRear = mTyreSizeRear;
+    public void setmTyreSizeFront(float mTyreSizeFront) {
+        this.mTyreSizeFront = mTyreSizeFront;
     }
 
     public float getmTyreSizeRear() {
         return mTyreSizeRear;
     }
 
-    public void setmTyrePressureFront(float mTyrePressureFront) {
-        this.mTyrePressureFront = mTyrePressureFront;
+    public void setmTyreSizeRear(float mTyreSizeRear) {
+        this.mTyreSizeRear = mTyreSizeRear;
     }
 
     public float getmTyrePressureFront() {
         return mTyrePressureFront;
     }
 
-    public void setmTyrePressureRear(float mTyrePressureRear) {
-        this.mTyrePressureRear = mTyrePressureRear;
+    public void setmTyrePressureFront(float mTyrePressureFront) {
+        this.mTyrePressureFront = mTyrePressureFront;
     }
 
     public float getmTyrePressureRear() {
         return mTyrePressureRear;
+    }
+
+    public void setmTyrePressureRear(float mTyrePressureRear) {
+        this.mTyrePressureRear = mTyrePressureRear;
     }
 
     public void setBallastRight(float mBallastRight) {
@@ -430,30 +430,29 @@ public class HallOfFameHolder implements Serializable /*extends RealmObject*/ {
         return mBallastRight;
     }
 
-    public void setmBallastLeft(float mBallastLeft) {
-        this.mBallastLeft = mBallastLeft;
-    }
-
     public float getmBallastLeft() {
         return mBallastLeft;
     }
 
-    public void setmStiffenerBar(String mStiffenerBar) {
-        this.mStiffenerBar = mStiffenerBar;
+    public void setmBallastLeft(float mBallastLeft) {
+        this.mBallastLeft = mBallastLeft;
     }
 
     public String getmStiffenerBar() {
         return mStiffenerBar;
     }
 
-    public void setmSeatPositionType(String mSeatPositionType) {
-        this.mSeatPositionType = mSeatPositionType;
+    public void setmStiffenerBar(String mStiffenerBar) {
+        this.mStiffenerBar = mStiffenerBar;
     }
 
     public String getmSeatPositionType() {
         return mSeatPositionType;
     }
 
+    public void setmSeatPositionType(String mSeatPositionType) {
+        this.mSeatPositionType = mSeatPositionType;
+    }
 
     // DO NOT Delete the next 2 methods
     public int getmSessionId() {
