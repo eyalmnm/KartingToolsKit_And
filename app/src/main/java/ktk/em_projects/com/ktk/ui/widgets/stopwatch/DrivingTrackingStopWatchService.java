@@ -1,5 +1,6 @@
 package ktk.em_projects.com.ktk.ui.widgets.stopwatch;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.util.Log;
 
 import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.ui.main_screen.DriveTrackingScreen;
+
+// Ref: http://stackoverflow.com/questions/32345768/cannot-resolve-method-setlatesteventinfo
 
 public class DrivingTrackingStopWatchService extends StopwatchService {
 
@@ -25,8 +28,14 @@ public class DrivingTrackingStopWatchService extends StopwatchService {
         Intent notificationIntent = new Intent(this, DriveTrackingScreen.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
+        // Ref: http://stackoverflow.com/questions/32345768/cannot-resolve-method-setlatesteventinfo
         // the next two lines initialize the Notification, using the configurations above
-        m_notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+//        m_notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+        Notification.Builder builder = new Notification.Builder(context)
+                .setContentIntent(contentIntent)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(contentTitle);
+        m_notification = builder.build();
         m_notificationMgr.notify(NOTIFICATION_ID, m_notification);
     }
 

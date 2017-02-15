@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.config.Constants;
 import ktk.em_projects.com.ktk.objects.HourlyWeatherInfo;
 import ktk.em_projects.com.ktk.objects.WeatherInfo;

@@ -16,6 +16,8 @@ import android.util.Log;
 import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.ui.main_screen.StopwatchScreen;
 
+// Ref: http://stackoverflow.com/questions/32345768/cannot-resolve-method-setlatesteventinfo
+
 public class StopwatchService extends Service {
     protected static final int NOTIFICATION_ID = 1;
     private static final String TAG = "StopwatchService";
@@ -85,7 +87,13 @@ public class StopwatchService extends Service {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         // the next two lines initialize the Notification, using the configurations above
-        m_notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+        // Ref: http://stackoverflow.com/questions/32345768/cannot-resolve-method-setlatesteventinfo
+//        m_notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+        Notification.Builder builder = new Notification.Builder(context)
+                .setContentIntent(contentIntent)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(contentTitle);
+        m_notification = builder.build();
         m_notificationMgr.notify(NOTIFICATION_ID, m_notification);
     }
 

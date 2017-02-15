@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.config.Constants;
 import ktk.em_projects.com.ktk.objects.LatLngAltSpd;
 import ktk.em_projects.com.ktk.ui.main_screen.DriveTrackingScreen;
@@ -43,6 +44,7 @@ import static ktk.em_projects.com.ktk.config.Constants.INTENT_DATA_NAME.WORKING_
 // Ref: http://stackoverflow.com/questions/7175161/how-to-get-file-read-line-by-line
 // Ref: http://stackoverflow.com/questions/14072748/overwrite-textfile-when-using-file-writer-append-in-android
 // Ref: http://stackoverflow.com/questions/9095610/android-fileinputstream-read-txt-file-to-string
+// Ref: http://stackoverflow.com/questions/32345768/cannot-resolve-method-setlatesteventinfo
 
 /**
  * Created by eyalmuchtar on 11/02/2016.
@@ -213,8 +215,14 @@ public class SensorsClient extends Service {
         Intent notificationIntent = new Intent(this, DriveTrackingScreen.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
+        // Ref: http://stackoverflow.com/questions/32345768/cannot-resolve-method-setlatesteventinfo
         // the next two lines initialize the Notification, using the configurations above
-        mNotification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+//        mNotification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+        Notification.Builder builder = new Notification.Builder(context)
+                .setContentIntent(contentIntent)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(contentTitle);
+        mNotification = builder.build();
         mNotificationManager.notify(NOTIFICATION_ID, mNotification);
     }
 
