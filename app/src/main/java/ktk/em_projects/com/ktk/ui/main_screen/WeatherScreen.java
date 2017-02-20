@@ -1,7 +1,12 @@
 package ktk.em_projects.com.ktk.ui.main_screen;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -11,6 +16,9 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -86,6 +94,10 @@ import ktk.em_projects.com.ktk.utils.StringUtils;
 // Get Google Map
 // http://stackoverflow.com/questions/31371865/replace-getmap-with-getmapasync
 
+// Get Location Permissions
+// http://stackoverflow.com/questions/33327984/call-requires-permissions-that-may-be-rejected-by-user
+// http://stackoverflow.com/questions/32491960/android-check-permission-for-locationmanager
+
 
 // TODO  android how to switch between terrain and sattelite in Google map fragments
 // http://wptrafficanalyzer.in/blog/google-map-android-api-v2-switching-between-normal-view-satellite-view-and-terrain-view/
@@ -96,6 +108,14 @@ import ktk.em_projects.com.ktk.utils.StringUtils;
 public class WeatherScreen extends Activity {
 
     private static final String TAG = "WeatherScreen";
+
+    /* GPS Constant Permission */
+    private static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
+    private static final int MY_PERMISSION_ACCESS_FINE_LOCATION = 12;
+
+    /* Position */
+    private static final int MINIMUM_TIME = 10000;  // 10s
+    private static final int MINIMUM_DISTANCE = 50; // 50m
 
     private SmoothProgressBar smoothProgressbar;
     private TextView latitudeTextView;
@@ -207,17 +227,21 @@ public class WeatherScreen extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        if (locationListener != null) {
-            locationManager.requestLocationUpdates(provider, 400l, 1f,
-                    locationListener);
-            locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 10 * 1000, (float) 10.0,
-                    locationListener);
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 90 * 1000, (float) 10.0,
-                    locationListener);
+        try {
+            if (locationListener != null) {
+                locationManager.requestLocationUpdates(provider, 400l, 1f,
+                        locationListener);
+                locationManager.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER, 10 * 1000, (float) 10.0,
+                        locationListener);
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 90 * 1000, (float) 10.0,
+                        locationListener);
+            }
+        } catch (SecurityException e) {
+            dialogGPS(this); // lets the user know there is a problem with the gps
         }
-//        smoothProgressbar.setVisibility(View.GONE);
+        //        smoothProgressbar.setVisibility(View.GONE);
     }
 
     private void initLocationProvider() {
@@ -226,12 +250,58 @@ public class WeatherScreen extends Activity {
         provider = locationManager.getBestProvider(criteria, false);
         if (provider == null)
             return;
-        Location location = locationManager.getLastKnownLocation(provider);
-        if (location != null) {
-            lat = location.getLatitude();
-            lng = location.getLongitude();
-            alt = location.getAltitude();
-            setMyLocation(location.getLatitude(), location.getLongitude());
+
+        Location location;
+
+        // API 23: we have to check if ACCESS_FINE_LOCATION and/or ACCESS_COARSE_LOCATION permission are granted
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            // No one provider activated: prompt GPS
+            if (true == StringUtils.isNullOrEmpty(provider)) {
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+
+            // At least one provider activated. Get the coordinates
+            switch (provider) {
+                case "passive":
+                    locationManager.requestLocationUpdates(provider, MINIMUM_TIME, MINIMUM_DISTANCE, locationListener);
+                    location = locationManager.getLastKnownLocation(provider);
+                    break;
+                case "network":
+                    break;
+                case "gps":
+                    break;
+            }
+
+            // One or both permissions are denied.
+        } else {
+
+            // The ACCESS_COARSE_LOCATION is denied, then I request it and manage the result in
+            // onRequestPermissionsResult() using the constant MY_PERMISSION_ACCESS_FINE_LOCATION
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSION_ACCESS_COARSE_LOCATION);
+            }
+            // The ACCESS_FINE_LOCATION is denied, then I request it and manage the result in
+            // onRequestPermissionsResult() using the constant MY_PERMISSION_ACCESS_FINE_LOCATION
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(this,
+                        new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+                        MY_PERMISSION_ACCESS_FINE_LOCATION);
+            }
+
+        }
+
+        if (null != locationManager) {
+            location = locationManager.getLastKnownLocation(provider);
+            if (location != null) {
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+                alt = location.getAltitude();
+                setMyLocation(location.getLatitude(), location.getLongitude());
+            }
         }
     }
 
@@ -385,9 +455,26 @@ public class WeatherScreen extends Activity {
     }
 
     private void initLocation() {
+        try {
         ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
                 .requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0l,
                         0f, locationListener);
+        } catch (SecurityException e) {
+            dialogGPS(this); // lets the user know there is a problem with the gps
+        }
+    }
+
+    private void dialogGPS(Context context) {
+        AlertDialog gpsDialog = new AlertDialog.Builder(context).create();
+        gpsDialog.setTitle("GPS");
+        gpsDialog.setMessage("GPS problem occurs. Please turn on your GPS.");
+        gpsDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        gpsDialog.show();
     }
 
     @Override
