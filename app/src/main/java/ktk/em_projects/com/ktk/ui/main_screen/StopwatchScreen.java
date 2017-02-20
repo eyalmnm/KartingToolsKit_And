@@ -36,6 +36,7 @@ public class StopwatchScreen extends ListActivity {
     private ArrayAdapter<String> m_lapList;
     // Connection to the backgorund StopwatchService
     private StopwatchService m_stopwatchService;
+
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         public void handleMessage(Message m) {
