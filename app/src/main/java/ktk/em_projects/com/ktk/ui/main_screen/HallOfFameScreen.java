@@ -32,7 +32,7 @@ import ktk.em_projects.com.ktk.storage.HallOfFameDbConstatnts;
 import ktk.em_projects.com.ktk.storage.HallOfFameDbHandler;
 import ktk.em_projects.com.ktk.storage.HallOfFameDbHelper;
 import ktk.em_projects.com.ktk.ui.fragments.dialogs.HallOfFameDetailDialog;
-import ktk.em_projects.com.ktk.ui.fragments.dialogs.HallOfFameEventCreator;
+import ktk.em_projects.com.ktk.ui.main_screen.hall_of_fame.HallOfFameEventCreator;
 
 // http://www.opgenorth.net/blog/2011/09/06/using-autocompletetextview-and-simplecursoradapter-2/
 // http://www.mysamplecode.com/2011/10/android-autocompletetextview.html
