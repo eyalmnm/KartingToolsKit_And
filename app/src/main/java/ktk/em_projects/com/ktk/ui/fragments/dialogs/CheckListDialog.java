@@ -10,24 +10,27 @@ import android.widget.Button;
 
 import ktk.em_projects.com.ktk.R;
 
+// Passing data to fragment
+// http://stackoverflow.com/questions/17436298/how-to-pass-a-variable-from-activity-to-fragment-and-pass-it-back
+
 /**
  * Created by E M on 17/01/2015.
  */
 public class CheckListDialog extends DialogFragment {
-
-    private int layoutId;
 
     private Button okButton;
 
     public CheckListDialog() {
     }
 
-    public CheckListDialog(int layoutId) {
-        this.layoutId = layoutId;
-    }
+//    public CheckListDialog(int layoutId) {
+//        this.layoutId = layoutId;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        int layoutId = args.getInt("layoutId");
         View view = inflater.inflate(layoutId, container, false);
 
         int width = getResources().getDimensionPixelSize(R.dimen.popup_width);

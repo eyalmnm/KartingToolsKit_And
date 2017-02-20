@@ -37,18 +37,25 @@ public class PavedOvalFragment extends Fragment implements View.OnClickListener 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onClick(View view) {
+        Bundle args = new Bundle();
+        boolean isCheckListButton = false;
         if (view.getId() == R.id.pushAtCornerEntryButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.paved_push_at_corner_entry_dialog);
-            checkListDialog.show(getChildFragmentManager(), "pushAtCornerEntryButton");
+            args.putInt("layoutId", R.layout.paved_push_at_corner_entry_dialog);
+            isCheckListButton = true;
         } else if (view.getId() == R.id.pushAtCornerExitButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.paved_push_at_corner_exit_dialog);
-            checkListDialog.show(getChildFragmentManager(), "pushAtCornerExitButton");
+            args.putInt("layoutId", R.layout.paved_push_at_corner_exit_dialog);
+            isCheckListButton = true;
         } else if (view.getId() == R.id.looseAtCornerEntryButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.paved_loose_at_corner_entry_dialog);
-            checkListDialog.show(getChildFragmentManager(), "looseAtCornerEntryButton");
+            args.putInt("layoutId", R.layout.paved_loose_at_corner_entry_dialog);
+            isCheckListButton = true;
         } else if (view.getId() == R.id.looseAtCornerExitButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.paved_loose_at_corner_exit_dialog);
-            checkListDialog.show(getChildFragmentManager(), "looseAtCornerExitButton");
+            args.putInt("layoutId", R.layout.paved_loose_at_corner_exit_dialog);
+            isCheckListButton = true;
+        }
+        if (true == isCheckListButton) {
+            CheckListDialog checkListDialog = new CheckListDialog();
+            checkListDialog.setArguments(args);
+            checkListDialog.show(getChildFragmentManager(), "CheckListDialog");
         }
     }
 }
