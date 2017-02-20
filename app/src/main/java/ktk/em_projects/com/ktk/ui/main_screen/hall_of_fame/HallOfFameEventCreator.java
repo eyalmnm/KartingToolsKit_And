@@ -1,4 +1,4 @@
-package ktk.em_projects.com.ktk.ui.fragments.dialogs;
+package ktk.em_projects.com.ktk.ui.main_screen.hall_of_fame;
 
 import android.app.Activity;
 import android.app.FragmentManager;
