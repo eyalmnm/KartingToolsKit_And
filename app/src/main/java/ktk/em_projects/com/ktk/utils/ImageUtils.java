@@ -1,6 +1,7 @@
 package ktk.em_projects.com.ktk.utils;
 
 import android.annotation.TargetApi;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -216,7 +217,6 @@ public class ImageUtils {
      * @param bitmap the bitmap to be converted
      * @return bitmap data as bytes array
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     public static byte[] convertBitmap2ByteArray(Bitmap bitmap) {
         int bytes = bitmap.getByteCount();
         ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
@@ -225,4 +225,11 @@ public class ImageUtils {
         return array;
     }
 
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
 }
