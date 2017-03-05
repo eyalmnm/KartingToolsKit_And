@@ -20,7 +20,8 @@ public class StringUtils {
     public static boolean isNullOrEmpty(String str) {
         if (str == null)
             return true;
-        str = str.trim().replace("?", "").replace("<", "").replace(">", "").replace("&", "").replace("\"", "").replace("\'", "").replace(";", "");
+        str = str.trim().replace("?", "").replace("<", "").replace(">", "").
+                replace("&", "").replace("\"", "").replace("\'", "").replace(";", "");
         if (str.trim().length() == 0)
             return true;
         return false;
