@@ -103,45 +103,52 @@ public class CheckListScreen extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Bundle args = new Bundle();
+        boolean isCheckListButton = false;
         if (v.getId() == R.id.pavedPushAtCornerEntryButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.paved_push_at_corner_entry_dialog);
-            checkListDialog.show(getFragmentManager(), "pavedPushAtCornerEntryButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.paved_push_at_corner_entry_dialog);
         } else if (v.getId() == R.id.pavedPushAtCornerExitButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.paved_push_at_corner_exit_dialog);
-            checkListDialog.show(getFragmentManager(), "pavedPushAtCornerExitButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.paved_push_at_corner_exit_dialog);
         } else if (v.getId() == R.id.pavedLooseAtCornerEntryButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.paved_loose_at_corner_entry_dialog);
-            checkListDialog.show(getFragmentManager(), "pavedLooseAtCornerEntryButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.paved_loose_at_corner_entry_dialog);
         } else if (v.getId() == R.id.pavedLooseAtCornerExitButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.paved_loose_at_corner_exit_dialog);
-            checkListDialog.show(getFragmentManager(), "pavedLooseAtCornerEntryButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.paved_loose_at_corner_exit_dialog);
         } else if (v.getId() == R.id.dirtPushAtCornerEntryButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.dirt_push_at_corner_entry_dialog);
-            checkListDialog.show(getFragmentManager(), "dirtPushAtCornerEntryButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.dirt_push_at_corner_entry_dialog);
         } else if (v.getId() == R.id.dirtPushAtCornerExitButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.dirt_push_at_corner_exit_dialog);
-            checkListDialog.show(getFragmentManager(), "dirtPushAtCornerEntryButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.dirt_push_at_corner_exit_dialog);
         } else if (v.getId() == R.id.dirtLooseAtCornerEntryButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.dirt_loose_at_corner_entry_dialog);
-            checkListDialog.show(getFragmentManager(), "dirtLooseAtCornerEntryButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.dirt_loose_at_corner_entry_dialog);
         } else if (v.getId() == R.id.dirtLooseAtCornerExitButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.dirt_loose_at_corner_exit_dialog);
-            checkListDialog.show(getFragmentManager(), "dirtLooseAtCornerExitButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.dirt_loose_at_corner_exit_dialog);
         } else if (v.getId() == R.id.dirtFourWheelDriftButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.dirt_four_wheel_drift_dialog);
-            checkListDialog.show(getFragmentManager(), "dirtFourWheelDriftButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.dirt_four_wheel_drift_dialog);
         } else if (v.getId() == R.id.sprintPushAtCornerEntryButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.sprint_push_at_corner_entry_dialog);
-            checkListDialog.show(getFragmentManager(), "sprintPushAtCornerEntryButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.sprint_push_at_corner_entry_dialog);
         } else if (v.getId() == R.id.sprintPushAtCornerExitButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.sprint_push_at_corner_exit_dialog);
-            checkListDialog.show(getFragmentManager(), "sprintPushAtCornerExitButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.sprint_push_at_corner_exit_dialog);
         } else if (v.getId() == R.id.sprintLooseAtCornerEntryButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.sprint_loose_at_corner_entry_dialog);
-            checkListDialog.show(getFragmentManager(), "sprintLooseAtCornerEntryButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.sprint_loose_at_corner_entry_dialog);
         } else if (v.getId() == R.id.sprintLooseAtCornerExitButton) {
-            CheckListDialog checkListDialog = new CheckListDialog(R.layout.sprint_loose_at_corner_exit_dialog);
-            checkListDialog.show(getFragmentManager(), "sprintLooseAtCornerExitButton");
+            isCheckListButton = true;
+            args.putInt("layoutId", R.layout.sprint_loose_at_corner_exit_dialog);
+        }
+        if (true == isCheckListButton) {
+            CheckListDialog checkListDialog = new CheckListDialog();
+            checkListDialog.setArguments(args);
+            checkListDialog.show(getFragmentManager(), "CheckListDialog");
         }
     }
 
