@@ -63,6 +63,7 @@
     <string name="total_run_time">Total Time</string>
     <string name="num_of_laps">Num of Laps</string>
     <string name="best_laps_time">Best Lap Time</string>
+    <string name="laps_time_title">Lap Time</string>
     <string name="track_condition">Track is</string>
     <string name="dry">Dry</string>
     <string name="wet">Wet</string>
