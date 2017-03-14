@@ -25,6 +25,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.sensors.SensorsClient;
@@ -53,7 +54,10 @@ import ktk.em_projects.com.ktk.sensors.SensorsClient;
 // For calculate travelled distance
 // Ref: http://stackoverflow.com/questions/8132198/how-to-calculate-distance-travelled
 
-public class DriveTrackingScreen extends Activity {
+// For problems
+// Ref: http://stackoverflow.com/questions/38323120/android-cannot-resolve-method-getmap
+
+public class DriveTrackingScreen extends Activity implements OnMapReadyCallback {
 
     private static final String TAG = "DriveTrackingScreen";
 
@@ -117,8 +121,15 @@ public class DriveTrackingScreen extends Activity {
         // Initial screen's components (Map and other UI Components)
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         // Getting reference to google map
-        googleMap = mapFragment.getMap();
-        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mapFragment.getMapAsync(this);
+//        googleMap = mapFragment.getMap();
+//        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        this.googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
     }
 
     private void bindSensorsClientService() {

@@ -35,6 +35,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -104,8 +105,14 @@ import ktk.em_projects.com.ktk.utils.StringUtils;
 // http://www.google.com/search?client=ms-android-samsung&source=android-home&site=webhp&source=hp&ei=hyPBVIG-F9PbaI_ZgbgG&q=android+how+to+switch+between+terrain+and+sattelite+in+Google+map+fragments&oq=android+how+to+switch+between+terrain+and+sattelite+in+Google+map+fragments&gs_l=mobile-gws-hp.3..30i10.5790.133675.0.135868.85.60.7.18.18.1.2502.33082.2-7j17j15j5j3j2j2j3.54.0.msedr...0...1c.1.61.mobile-gws-hp..23.62.26259.3.WeGebrVFwQI&rlz=1Y1XIUG_iwIL602IL603
 // TODO  android how to switch between terrain and sattelite in Google map fragments
 
+// For problems
+// Ref: http://stackoverflow.com/questions/38323120/android-cannot-resolve-method-getmap
 
-public class WeatherScreen extends Activity {
+// Stop Location Listener
+// Ref: http://stackoverflow.com/questions/6894234/stop-location-listener-in-android
+
+
+public class WeatherScreen extends Activity implements OnMapReadyCallback {
 
     private static final String TAG = "WeatherScreen";
 
@@ -174,7 +181,8 @@ public class WeatherScreen extends Activity {
         fm = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         // Getting reference to google map
         // http://stackoverflow.com/questions/31371865/replace-getmap-with-getmapasync
-        googleMap = fm.getMap();
+//        googleMap = fm.getMap();
+        fm.getMapAsync(this);
 
         latitudeTextView = (TextView) findViewById(R.id.latitudeTextView);
         longitudeTextView = (TextView) findViewById(R.id.longitudeTextView);
@@ -216,6 +224,11 @@ public class WeatherScreen extends Activity {
         });
 
         initLocation();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
     }
 
     @Override
@@ -477,12 +490,14 @@ public class WeatherScreen extends Activity {
         gpsDialog.show();
     }
 
+    // Ref: http://stackoverflow.com/questions/6894234/stop-location-listener-in-android
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        locationManager.removeUpdates(locationListener);
         locationListener = null;
         locationManager = null;
-        EasyTracker.getInstance(this).activityStart(this);
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     private class ReverseGeoCodingTask extends AsyncTask<LatLng, Void, String> {

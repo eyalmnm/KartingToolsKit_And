@@ -1,8 +1,6 @@
 package ktk.em_projects.com.ktk.ui.fragments;
 
-import android.annotation.TargetApi;
 import android.app.Fragment;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +34,6 @@ public class DirtOvalFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onClick(View view) {
         Bundle args = new Bundle();

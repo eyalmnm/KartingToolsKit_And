@@ -1,6 +1,7 @@
 package ktk.em_projects.com.ktk.network.comm;
 
-import android.graphics.Bitmap;
+// import android.graphics.Bitmap;
+
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -10,10 +11,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
@@ -25,8 +22,12 @@ import java.util.ArrayList;
 
 import ktk.em_projects.com.ktk.config.Constants;
 import ktk.em_projects.com.ktk.objects.HallOfFameHolder;
-import ktk.em_projects.com.ktk.utils.ImageUtils;
 import ktk.em_projects.com.ktk.utils.StringUtils;
+
+//import org.apache.http.entity.mime.HttpMultipartMode;
+//import org.apache.http.entity.mime.MultipartEntity;
+//import org.apache.http.entity.mime.content.ByteArrayBody;
+//import org.apache.http.entity.mime.content.StringBody;
 
 
 @SuppressWarnings("deprecation")
@@ -64,13 +65,13 @@ public class Communicator implements Runnable {
 
     }
 
-    public void uploadPicture(String riddle, Bitmap bitmap, CommListener commListener) throws UnsupportedEncodingException {
-        String request = Constants.SERVER.URL + "/UploadPicture";
-        MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-        multipartEntity.addPart("riddle", new StringBody(riddle));
-        multipartEntity.addPart("image", new ByteArrayBody(ImageUtils.convertBitmap2ByteArray(bitmap), String.valueOf(System.currentTimeMillis()) + ".png"));
-        sendRequest(Constants.SERVER.HTTP_POST, request, (HttpEntity) multipartEntity, null, commListener);
-    }
+//    public void uploadPicture(String riddle, Bitmap bitmap, CommListener commListener) throws UnsupportedEncodingException {
+//        String request = Constants.SERVER.URL + "/UploadPicture";
+//        MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+//        multipartEntity.addPart("riddle", new StringBody(riddle));
+//        multipartEntity.addPart("image", new ByteArrayBody(ImageUtils.convertBitmap2ByteArray(bitmap), String.valueOf(System.currentTimeMillis()) + ".png"));
+//        sendRequest(Constants.SERVER.HTTP_POST, request, (HttpEntity) multipartEntity, null, commListener);
+//    }
 
     public void login(String usr, String pwd, CommListener commListener) throws UnsupportedEncodingException {
         String request = Constants.SERVER.URL + "/Login";
