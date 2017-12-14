@@ -21,7 +21,6 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -111,9 +110,6 @@ public class DriveTrackingScreen extends Activity implements OnMapReadyCallback 
 
         context = this;
 
-        // Google Analytics tracking
-        EasyTracker.getInstance(this).activityStart(this);
-
         // Initial Sensors Client service.
         startService(new Intent(this, SensorsClient.class));
         bindSensorsClientService();
@@ -139,7 +135,6 @@ public class DriveTrackingScreen extends Activity implements OnMapReadyCallback 
 
     @Override
     protected void onDestroy() {
-        EasyTracker.getInstance(this).activityStop(this);
         unbindSensorsClientService();
         super.onDestroy();
     }

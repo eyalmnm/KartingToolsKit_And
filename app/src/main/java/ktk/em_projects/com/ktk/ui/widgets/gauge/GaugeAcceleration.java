@@ -64,7 +64,7 @@ public final class GaugeAcceleration extends View {
 	 */
 
 	/*
-	 * Developer Note: There are some things to keep in mind when it comes to
+     * Developer Note: There are some things to keep in mind when it comes to
 	 * Android and hardware acceleration. What we see in Android 4.0 is �full�
 	 * hardware acceleration. All UI elements in windows, and third-party apps
 	 * will have access to the GPU for rendering. Android 3.0 had the same

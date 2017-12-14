@@ -49,16 +49,6 @@ import ktk.em_projects.com.ktk.R;
  * Dialog to set a time.
  */
 public class TimePickerDialog extends DialogFragment implements OnValueSelectedListener {
-    private static final String TAG = "TimePickerDialog";
-
-    private static final String KEY_HOUR_OF_DAY = "hour_of_day";
-    private static final String KEY_MINUTE = "minute";
-    private static final String KEY_IS_24_HOUR_VIEW = "is_24_hour_view";
-    private static final String KEY_CURRENT_ITEM_SHOWING = "current_item_showing";
-    private static final String KEY_IN_KB_MODE = "in_kb_mode";
-    private static final String KEY_TYPED_TIMES = "typed_times";
-    private static final String KEY_DARK_THEME = "dark_theme";
-
     public static final int HOUR_INDEX = 0;
     public static final int MINUTE_INDEX = 1;
     // NOT a real index for the purpose of what's showing.
@@ -67,7 +57,14 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
     public static final int ENABLE_PICKER_INDEX = 3;
     public static final int AM = 0;
     public static final int PM = 1;
-
+    private static final String TAG = "TimePickerDialog";
+    private static final String KEY_HOUR_OF_DAY = "hour_of_day";
+    private static final String KEY_MINUTE = "minute";
+    private static final String KEY_IS_24_HOUR_VIEW = "is_24_hour_view";
+    private static final String KEY_CURRENT_ITEM_SHOWING = "current_item_showing";
+    private static final String KEY_IN_KB_MODE = "in_kb_mode";
+    private static final String KEY_TYPED_TIMES = "typed_times";
+    private static final String KEY_DARK_THEME = "dark_theme";
     // Delay before starting the pulse animation, in ms.
     private static final int PULSE_ANIMATOR_DELAY = 300;
 
@@ -111,20 +108,6 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
     private String mMinutePickerDescription;
     private String mSelectMinutes;
 
-    /**
-     * The callback interface used to indicate the user is done filling in
-     * the time (they clicked on the 'Set' button).
-     */
-    public interface OnTimeSetListener {
-
-        /**
-         * @param view      The view associated with this listener.
-         * @param hourOfDay The hour that was set.
-         * @param minute    The minute that was set.
-         */
-        void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute);
-    }
-
     public TimePickerDialog() {
         // Empty constructor required for dialog fragment.
     }
@@ -141,6 +124,33 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
         return ret;
     }
 
+    private static int getValFromKeyCode(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_0:
+                return 0;
+            case KeyEvent.KEYCODE_1:
+                return 1;
+            case KeyEvent.KEYCODE_2:
+                return 2;
+            case KeyEvent.KEYCODE_3:
+                return 3;
+            case KeyEvent.KEYCODE_4:
+                return 4;
+            case KeyEvent.KEYCODE_5:
+                return 5;
+            case KeyEvent.KEYCODE_6:
+                return 6;
+            case KeyEvent.KEYCODE_7:
+                return 7;
+            case KeyEvent.KEYCODE_8:
+                return 8;
+            case KeyEvent.KEYCODE_9:
+                return 9;
+            default:
+                return -1;
+        }
+    }
+
     public void initialize(OnTimeSetListener callback,
                            int hourOfDay, int minute, boolean is24HourMode) {
         mCallback = callback;
@@ -152,15 +162,15 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
         mThemeDark = false;
     }
 
+    public boolean isThemeDark() {
+        return mThemeDark;
+    }
+
     /**
      * Set a dark or light theme. NOTE: this will only take effect for the next onCreateView.
      */
     public void setThemeDark(boolean dark) {
         mThemeDark = dark;
-    }
-
-    public boolean isThemeDark() {
-        return mThemeDark;
     }
 
     public void setOnTimeSetListener(OnTimeSetListener callback) {
@@ -700,33 +710,6 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
         }
     }
 
-    private static int getValFromKeyCode(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_0:
-                return 0;
-            case KeyEvent.KEYCODE_1:
-                return 1;
-            case KeyEvent.KEYCODE_2:
-                return 2;
-            case KeyEvent.KEYCODE_3:
-                return 3;
-            case KeyEvent.KEYCODE_4:
-                return 4;
-            case KeyEvent.KEYCODE_5:
-                return 5;
-            case KeyEvent.KEYCODE_6:
-                return 6;
-            case KeyEvent.KEYCODE_7:
-                return 7;
-            case KeyEvent.KEYCODE_8:
-                return 8;
-            case KeyEvent.KEYCODE_9:
-                return 9;
-            default:
-                return -1;
-        }
-    }
-
     /**
      * Get the currently-entered time, as integer values of the hours and minutes typed.
      *
@@ -937,6 +920,20 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
             // The time must be finished now. E.g. 2:57am, 9:30pm.
             thirdDigit.addChild(ampm);
         }
+    }
+
+    /**
+     * The callback interface used to indicate the user is done filling in
+     * the time (they clicked on the 'Set' button).
+     */
+    public interface OnTimeSetListener {
+
+        /**
+         * @param view      The view associated with this listener.
+         * @param hourOfDay The hour that was set.
+         * @param minute    The minute that was set.
+         */
+        void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute);
     }
 
     /**

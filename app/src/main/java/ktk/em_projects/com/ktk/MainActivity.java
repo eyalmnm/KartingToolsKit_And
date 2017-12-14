@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ktk.em_projects.com.ktk.ui.main_screen.CheckListScreen;
 import ktk.em_projects.com.ktk.ui.main_screen.DriveTrackingScreen;
 import ktk.em_projects.com.ktk.ui.main_screen.FlagsScreen;
@@ -35,6 +33,9 @@ import ktk.em_projects.com.ktk.ui.main_screen.WeatherScreen;
 // http://realm.io/
 // http://realm.io/docs/java/0.78.0/
 
+// Apache libraries
+// https://stackoverflow.com/questions/30259141/how-to-add-apache-commons-collections-in-android-studio-gradle
+
 public class MainActivity extends Activity {
 
     private ImageButton checkListImageButton;
@@ -60,8 +61,6 @@ public class MainActivity extends Activity {
 
         context = this;
 
-        EasyTracker.getInstance(context).activityStart(this);
-
         checkListImageButton = (ImageButton) findViewById(R.id.checkListImageButton);
         weatherImageButton = (ImageButton) findViewById(R.id.weatherImageButton);
         stopWatchImageButton = (ImageButton) findViewById(R.id.stopWatchImageButton);
@@ -81,7 +80,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, CheckListScreen.class);
                 startActivity(intent);
-                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
         weatherImageButton.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +88,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, WeatherScreen.class);
                 startActivity(intent);
-                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
         stopWatchImageButton.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +96,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, StopwatchScreen.class);
                 startActivity(intent);
-                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
         fuelImageButton.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +104,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, FuelOilMixScreen.class);
                 startActivity(intent);
-                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
         gearImageButton.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +112,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, GearRatioScreen.class);
                 startActivity(intent);
-                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
         flagsImageButton.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +120,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, FlagsScreen.class);
                 startActivity(intent);
-                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
         hallOfFameImageButton.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +128,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, HallOfFameScreen.class); // HallOfFameEventCreator.class);
                 startActivity(intent);
-                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
         driveTrackingImageButton.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +136,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, DriveTrackingScreen.class);
                 startActivity(intent);
-                overridePendingTransition(R.layout.fadein, R.layout.fadeout);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
         onMapImageButton.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +156,5 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EasyTracker.getInstance(context).activityStop(this);
     }
 }

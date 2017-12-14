@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.ui.fragments.dialogs.CheckListDialog;
 
@@ -28,8 +26,6 @@ public class CheckListScreen extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.check_list_screen);
         Log.d(TAG, "onCreate");
-
-        EasyTracker.getInstance(this).activityStart(this);
 
         Button pavedPushAtCornerEntryButton = (Button) findViewById(R.id.pavedPushAtCornerEntryButton);
         Button pavedPushAtCornerExitButton = (Button) findViewById(R.id.pavedPushAtCornerExitButton);
@@ -155,6 +151,5 @@ public class CheckListScreen extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 }

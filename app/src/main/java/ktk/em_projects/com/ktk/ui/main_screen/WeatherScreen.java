@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -171,8 +170,6 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
 
         context = this;
 
-        EasyTracker.getInstance(this).activityStart(this);
-
         initLocationListener();
 
         smoothProgressbar = (SmoothProgressBar) findViewById(R.id.smoothProgressbar);
@@ -292,16 +289,16 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
 
             // The ACCESS_COARSE_LOCATION is denied, then I request it and manage the result in
             // onRequestPermissionsResult() using the constant MY_PERMISSION_ACCESS_FINE_LOCATION
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                         MY_PERMISSION_ACCESS_COARSE_LOCATION);
             }
             // The ACCESS_FINE_LOCATION is denied, then I request it and manage the result in
             // onRequestPermissionsResult() using the constant MY_PERMISSION_ACCESS_FINE_LOCATION
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
-                        new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSION_ACCESS_FINE_LOCATION);
             }
 
@@ -469,9 +466,9 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
 
     private void initLocation() {
         try {
-        ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
-                .requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0l,
-                        0f, locationListener);
+            ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
+                    .requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0l,
+                            0f, locationListener);
         } catch (SecurityException e) {
             dialogGPS(this); // lets the user know there is a problem with the gps
         }
@@ -497,7 +494,6 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
         locationManager.removeUpdates(locationListener);
         locationListener = null;
         locationManager = null;
-        EasyTracker.getInstance(this).activityStop(this);
     }
 
     private class ReverseGeoCodingTask extends AsyncTask<LatLng, Void, String> {

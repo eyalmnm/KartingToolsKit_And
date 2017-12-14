@@ -16,8 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ktk.em_projects.com.ktk.MainActivity;
 import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.ui.widgets.stopwatch.StopwatchService;
@@ -74,8 +72,6 @@ public class StopwatchScreen extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stop_watch_screen);
 
-        EasyTracker.getInstance(this).activityStart(this);
-
         setListAdapter(new ArrayAdapter<String>(this, R.layout.laps_row));
 
         startService(new Intent(this, StopwatchService.class));
@@ -121,7 +117,6 @@ public class StopwatchScreen extends ListActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EasyTracker.getInstance(this).activityStop(this);
         unbindStopwatchService();
     }
 

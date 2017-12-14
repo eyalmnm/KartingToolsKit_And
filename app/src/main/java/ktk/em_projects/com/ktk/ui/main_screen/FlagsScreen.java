@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ktk.em_projects.com.ktk.R;
 
 /**
@@ -23,13 +21,10 @@ public class FlagsScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.flags_screen);
         Log.d(TAG, "onCreate");
-
-        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 }

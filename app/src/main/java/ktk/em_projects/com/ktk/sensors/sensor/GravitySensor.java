@@ -36,7 +36,7 @@ import ktk.em_projects.com.ktk.sensors.sensor.observer.GravitySensorObserver;
  */
 public class GravitySensor implements SensorEventListener {
     /*
-	 * Developer Note: Quaternions are used for the internal representations of
+     * Developer Note: Quaternions are used for the internal representations of
 	 * the rotations which prevents the polar anomalies associated with Gimbal
 	 * lock when using Euler angles for the rotations.
 	 */

@@ -8,8 +8,6 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.utils.StringUtils;
 
@@ -29,8 +27,6 @@ public class GearRatioScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gear_ratio_screen);
         Log.d(TAG, "onCreate");
-
-        EasyTracker.getInstance(this).activityStart(this);
 
         frontSprocketEditText = (EditText) findViewById(R.id.frontSprocketEditText);
         mainSprocketEditText = (EditText) findViewById(R.id.mainSprocketEditText);
@@ -90,6 +86,5 @@ public class GearRatioScreen extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 }

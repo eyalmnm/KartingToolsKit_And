@@ -51,6 +51,7 @@ public class TimeEntryFragment extends DialogFragment {
     private Button button7;
     private Button button8;
     private Button button9;
+
     public TimeEntryFragment() {
         requestCode = -1;
     }

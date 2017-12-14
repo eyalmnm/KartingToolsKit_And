@@ -1,13 +1,11 @@
 package ktk.em_projects.com.ktk.utils;
 
-import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 

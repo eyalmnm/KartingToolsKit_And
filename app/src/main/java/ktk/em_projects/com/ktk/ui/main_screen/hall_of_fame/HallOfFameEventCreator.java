@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.android.datetimepicker.date.DatePickerDialog;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
-import com.google.analytics.tracking.android.EasyTracker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -75,7 +74,6 @@ public class HallOfFameEventCreator extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hall_of_fame_event_creator);
         Log.d(TAG, "onCreate");
-        EasyTracker.getInstance(this).activityStart(this);
         context = this;
 
         runCalendar = Calendar.getInstance();
@@ -249,10 +247,40 @@ public class HallOfFameEventCreator extends Activity implements
         smoothProgressbar.setVisibility(View.VISIBLE);
         HallOfFameHolder holder = new HallOfFameHolder();
 
+        Log.e(TAG, "storeRun *********** MISSING DATA ! ! ! ***********");
+        Log.e(TAG, "storeRun *********** MISSING DATA ! ! ! ***********");
+        Log.e(TAG, "storeRun *********** MISSING DATA ! ! ! ***********");
+        String tyresType = "";          // TODO
+        String trackWeather = "";       // TODO
+        float trackTemperature = 0F;    // TODO
+        float airTemperature = 0F;      // TODO
+        int peakRPM = 0;                // TODO
+        float toeRight = 0F;            // TODO
+        float toeLeft = 0F;             // TODO
+        float camberCasterRight = 0F;   // TODO
+        float camberCasterLeft = 0F;    // TODO
+        float frontSpacingRight = 0F;   // TODO
+        float frontSpacingLeft = 0F;    // TODO
+        float rearSpacingRight = 0F;    // TODO
+        float rearSpacingLeft = 0F;     // TODO
+        int sprocketSize = 0;           // TODO
+        float rimSizeFront = 0F;        // TODO
+        float rimSizeRear = 0F;         // TODO
+        float tyreSizeFront = 0F;       // TODO
+        float tyreSizeRear = 0F;        // TODO
+        float tyrePressureFront = 0F;   // TODO
+        float tyrePressureRear = 0F;    // TODO
+        float ballastRight = 0F;        // TODO
+        float ballastLeft = 0F;         // TODO
+        String stiffenerBar = "";       // TODO
+        String seatPositionType = "";   // TODO
+        Log.e(TAG, "storeRun *********** MISSING DATA ! ! ! ***********");
+        Log.e(TAG, "storeRun *********** MISSING DATA ! ! ! ***********");
+        Log.e(TAG, "storeRun *********** MISSING DATA ! ! ! ***********");
         holder.setData(trackName, dateTime, timeStr, dateStr, totalRunTime, totalRunTimeStr, numOfLaps,
                 bestLapTime, bestLapTimeStr, dryTrack, gearRatio, srJetting, tyresType, trackWeather,
                 trackTemperature, airTemperature, peakRPM, toeRight, toeLeft, camberCasterRight,
-                camberCasterLeft, mFrontSpacingRight, frontSpacingLeft, rearSpacingRight, rearSpacingLeft,
+                camberCasterLeft, frontSpacingRight, frontSpacingLeft, rearSpacingRight, rearSpacingLeft,
                 sprocketSize, rimSizeFront, rimSizeRear, tyreSizeFront, tyreSizeRear, tyrePressureFront,
                 tyrePressureRear, ballastRight, ballastLeft, stiffenerBar, seatPositionType);
 
@@ -271,7 +299,6 @@ public class HallOfFameEventCreator extends Activity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override

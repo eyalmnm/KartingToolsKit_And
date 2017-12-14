@@ -66,7 +66,7 @@ public final class GaugeRotation extends View {
 	 */
 
 	/*
-	 * Developer Note: TextureView can only be used in a hardware accelerated
+     * Developer Note: TextureView can only be used in a hardware accelerated
 	 * window. When rendered in software, TextureView will draw nothing! On
 	 * Android 3.0 devices this means a manifest declaration. On older devices,
 	 * other implementations than TetureView will be required.

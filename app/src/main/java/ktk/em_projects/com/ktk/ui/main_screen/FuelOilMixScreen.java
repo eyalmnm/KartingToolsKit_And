@@ -9,8 +9,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.utils.StringUtils;
 
@@ -39,8 +37,6 @@ public class FuelOilMixScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fuel_oil_mix_screen);
         Log.d(TAG, "onCreate");
-
-        EasyTracker.getInstance(this).activityStart(this);
 
         calculationOptionsRadioGroup = (RadioGroup) findViewById(R.id.calculationOptionsRadioGroup);
 //        oilPercentageRadioButton = (RadioButton) findViewById(R.id.oilPercentageRadioButton);
@@ -141,6 +137,5 @@ public class FuelOilMixScreen extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EasyTracker.getInstance(this).activityStop(this);
     }
 }

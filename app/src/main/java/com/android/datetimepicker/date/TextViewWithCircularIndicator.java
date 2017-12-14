@@ -34,13 +34,10 @@ import ktk.em_projects.com.ktk.R;
 public class TextViewWithCircularIndicator extends TextView {
 
     private static final int SELECTED_CIRCLE_ALPHA = 60;
-
-    Paint mCirclePaint = new Paint();
-
     private final int mRadius;
     private final int mCircleColor;
     private final String mItemIsSelectedText;
-
+    Paint mCirclePaint = new Paint();
     private boolean mDrawCircle;
 
     public TextViewWithCircularIndicator(Context context, AttributeSet attrs) {

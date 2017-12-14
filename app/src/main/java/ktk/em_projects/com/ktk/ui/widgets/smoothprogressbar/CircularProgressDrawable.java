@@ -60,6 +60,7 @@ public class CircularProgressDrawable extends Drawable
     private int mMinSweepAngle;
     private int mMaxSweepAngle;
     private boolean mFirstSweepAnimation;
+
     private CircularProgressDrawable(int[] colors,
                                      float borderWidth,
                                      float sweepSpeed,

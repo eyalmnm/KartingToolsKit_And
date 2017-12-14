@@ -24,10 +24,10 @@ public class RadialTextsView extends View {
     private final static String TAG = "RadialTextsView";
 
     private final Paint mPaint = new Paint();
-
+    ObjectAnimator mDisappearAnimator;
+    ObjectAnimator mReappearAnimator;
     private boolean mDrawValuesReady;
     private boolean mIsInitialized;
-
     private Typeface mTypefaceLight;
     private Typeface mTypefaceRegular;
     private String[] mTexts;
@@ -40,7 +40,6 @@ public class RadialTextsView extends View {
     private float mInnerNumbersRadiusMultiplier;
     private float mTextSizeMultiplier;
     private float mInnerTextSizeMultiplier;
-
     private int mXCenter;
     private int mYCenter;
     private float mCircleRadius;
@@ -51,12 +50,9 @@ public class RadialTextsView extends View {
     private float[] mTextGridWidths;
     private float[] mInnerTextGridHeights;
     private float[] mInnerTextGridWidths;
-
     private float mAnimationRadiusMultiplier;
     private float mTransitionMidRadiusMultiplier;
     private float mTransitionEndRadiusMultiplier;
-    ObjectAnimator mDisappearAnimator;
-    ObjectAnimator mReappearAnimator;
     private InvalidateUpdateListener mInvalidateUpdateListener;
 
     public RadialTextsView(Context context) {

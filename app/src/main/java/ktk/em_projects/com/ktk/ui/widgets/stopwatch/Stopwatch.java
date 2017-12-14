@@ -22,10 +22,12 @@ public class Stopwatch {
     private long m_pauseOffset;
     private List<Long> m_laps = new ArrayList<Long>();
     private State m_state;
+
     public Stopwatch() {
         m_time = SystemTime;
         reset();
     }
+
     public Stopwatch(GetTime time) {
         m_time = time;
         reset();

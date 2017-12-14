@@ -32,10 +32,6 @@ import ktk.em_projects.com.ktk.R;
  */
 public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
     private static final String TAG = "RadialPickerLayout";
-
-    private final int TOUCH_SLOP;
-    private final int TAP_TIMEOUT;
-
     private static final int VISIBLE_DEGREES_STEP_SIZE = 30;
     private static final int HOUR_VALUE_TO_DEGREES_STEP_SIZE = VISIBLE_DEGREES_STEP_SIZE;
     private static final int MINUTE_VALUE_TO_DEGREES_STEP_SIZE = 6;
@@ -45,7 +41,8 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
     private static final int ENABLE_PICKER_INDEX = TimePickerDialog.ENABLE_PICKER_INDEX;
     private static final int AM = TimePickerDialog.AM;
     private static final int PM = TimePickerDialog.PM;
-
+    private final int TOUCH_SLOP;
+    private final int TAP_TIMEOUT;
     private int mLastValueSelected;
 
     private HapticFeedbackController mHapticFeedbackController;
@@ -78,11 +75,7 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
     private AnimatorSet mTransition;
     private Handler mHandler = new Handler();
 
-    public interface OnValueSelectedListener {
-        void onValueSelected(int pickerIndex, int newValue, boolean autoAdvance);
-    }
-
-    @SuppressLint("ClickableViewAccessibility") 
+    @SuppressLint("ClickableViewAccessibility")
     public RadialPickerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -124,6 +117,37 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
         mAccessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
 
         mTimeInitialized = false;
+    }
+
+    /**
+     * Returns mapping of any input degrees (0 to 360) to one of 12 visible output degrees (all
+     * multiples of 30), where the input will be "snapped" to the closest visible degrees.
+     *
+     * @param degrees            The input degrees
+     * @param forceHigherOrLower The output may be forced to either the higher or lower step, or may
+     *                           be allowed to snap to whichever is closer. Use 1 to force strictly higher, -1 to force
+     *                           strictly lower, and 0 to snap to the closer one.
+     * @return output degrees, will be a multiple of 30
+     */
+    private static int snapOnly30s(int degrees, int forceHigherOrLower) {
+        int stepSize = HOUR_VALUE_TO_DEGREES_STEP_SIZE;
+        int floor = (degrees / stepSize) * stepSize;
+        int ceiling = floor + stepSize;
+        if (forceHigherOrLower == 1) {
+            degrees = ceiling;
+        } else if (forceHigherOrLower == -1) {
+            if (degrees == floor) {
+                floor -= stepSize;
+            }
+            degrees = floor;
+        } else {
+            if ((degrees - floor) < (ceiling - degrees)) {
+                degrees = floor;
+            } else {
+                degrees = ceiling;
+            }
+        }
+        return degrees;
     }
 
     /**
@@ -377,37 +401,6 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
     }
 
     /**
-     * Returns mapping of any input degrees (0 to 360) to one of 12 visible output degrees (all
-     * multiples of 30), where the input will be "snapped" to the closest visible degrees.
-     *
-     * @param degrees            The input degrees
-     * @param forceHigherOrLower The output may be forced to either the higher or lower step, or may
-     *                           be allowed to snap to whichever is closer. Use 1 to force strictly higher, -1 to force
-     *                           strictly lower, and 0 to snap to the closer one.
-     * @return output degrees, will be a multiple of 30
-     */
-    private static int snapOnly30s(int degrees, int forceHigherOrLower) {
-        int stepSize = HOUR_VALUE_TO_DEGREES_STEP_SIZE;
-        int floor = (degrees / stepSize) * stepSize;
-        int ceiling = floor + stepSize;
-        if (forceHigherOrLower == 1) {
-            degrees = ceiling;
-        } else if (forceHigherOrLower == -1) {
-            if (degrees == floor) {
-                floor -= stepSize;
-            }
-            degrees = floor;
-        } else {
-            if ((degrees - floor) < (ceiling - degrees)) {
-                degrees = floor;
-            } else {
-                degrees = ceiling;
-            }
-        }
-        return degrees;
-    }
-
-    /**
      * For the currently showing view (either hours or minutes), re-calculate the position for the
      * selector, and redraw it at that position. The input degrees will be snapped to a selectable
      * value.
@@ -552,7 +545,8 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
 
     }
 
-    @SuppressLint("ClickableViewAccessibility") @Override
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
     public boolean onTouch(View v, MotionEvent event) {
         final float eventX = event.getX();
         final float eventY = event.getY();
@@ -732,7 +726,8 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
      * Necessary for accessibility, to ensure we support "scrolling" forward and backward
      * in the circle.
      */
-    @SuppressLint("InlinedApi") @Override
+    @SuppressLint("InlinedApi")
+    @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
         info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
@@ -743,7 +738,7 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
      * Announce the currently-selected time when launched.
      */
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             // Clear the event's current text so that only the current time will be spoken.
@@ -819,5 +814,9 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
         }
 
         return false;
+    }
+
+    public interface OnValueSelectedListener {
+        void onValueSelected(int pickerIndex, int newValue, boolean autoAdvance);
     }
 }

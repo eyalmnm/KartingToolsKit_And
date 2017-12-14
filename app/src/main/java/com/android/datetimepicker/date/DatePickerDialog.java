@@ -111,30 +111,6 @@ public class DatePickerDialog extends DialogFragment implements
     private String mYearPickerDescription;
     private String mSelectYear;
 
-    /**
-     * The callback used to indicate the user is done filling in the date.
-     */
-    public interface OnDateSetListener {
-
-        /**
-         * @param dialog      The view associated with this listener.
-         * @param year        The year that was set.
-         * @param monthOfYear The month that was set (0-11) for compatibility
-         *                    with {@link java.util.Calendar}.
-         * @param dayOfMonth  The day of the month that was set.
-         */
-        void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth);
-    }
-
-    /**
-     * The callback used to notify other date picker components of a change in selected date.
-     */
-    public interface OnDateChangedListener {
-
-        public void onDateChanged();
-    }
-
-
     public DatePickerDialog() {
         // Empty constructor required for dialog fragment.
     }
@@ -357,17 +333,6 @@ public class DatePickerDialog extends DialogFragment implements
         }
     }
 
-    public void setFirstDayOfWeek(int startOfWeek) {
-        if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
-            throw new IllegalArgumentException("Value must be between Calendar.SUNDAY and " +
-                    "Calendar.SATURDAY");
-        }
-        mWeekStart = startOfWeek;
-        if (mDayPickerView != null) {
-            mDayPickerView.onChange();
-        }
-    }
-
     public void setYearRange(int startYear, int endYear) {
         if (endYear <= startYear) {
             throw new IllegalArgumentException("Year end must be larger than year start");
@@ -377,6 +342,14 @@ public class DatePickerDialog extends DialogFragment implements
         if (mDayPickerView != null) {
             mDayPickerView.onChange();
         }
+    }
+
+    /**
+     * @return The minimal date supported by this DatePicker. Null if it has not been set.
+     */
+    @Override
+    public Calendar getMinDate() {
+        return mMinDate;
     }
 
     /**
@@ -394,11 +367,11 @@ public class DatePickerDialog extends DialogFragment implements
     }
 
     /**
-     * @return The minimal date supported by this DatePicker. Null if it has not been set.
+     * @return The maximal date supported by this DatePicker. Null if it has not been set.
      */
     @Override
-    public Calendar getMinDate() {
-        return mMinDate;
+    public Calendar getMaxDate() {
+        return mMaxDate;
     }
 
     /**
@@ -413,14 +386,6 @@ public class DatePickerDialog extends DialogFragment implements
         if (mDayPickerView != null) {
             mDayPickerView.onChange();
         }
-    }
-
-    /**
-     * @return The maximal date supported by this DatePicker. Null if it has not been set.
-     */
-    @Override
-    public Calendar getMaxDate() {
-        return mMaxDate;
     }
 
     public void setOnDateSetListener(OnDateSetListener listener) {
@@ -474,7 +439,6 @@ public class DatePickerDialog extends DialogFragment implements
         }
     }
 
-
     @Override
     public CalendarDay getSelectedDay() {
         return new CalendarDay(mCalendar);
@@ -495,6 +459,17 @@ public class DatePickerDialog extends DialogFragment implements
         return mWeekStart;
     }
 
+    public void setFirstDayOfWeek(int startOfWeek) {
+        if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
+            throw new IllegalArgumentException("Value must be between Calendar.SUNDAY and " +
+                    "Calendar.SATURDAY");
+        }
+        mWeekStart = startOfWeek;
+        if (mDayPickerView != null) {
+            mDayPickerView.onChange();
+        }
+    }
+
     @Override
     public void registerOnDateChangedListener(OnDateChangedListener listener) {
         mListeners.add(listener);
@@ -508,5 +483,28 @@ public class DatePickerDialog extends DialogFragment implements
     @Override
     public void tryVibrate() {
         mHapticFeedbackController.tryVibrate();
+    }
+
+    /**
+     * The callback used to indicate the user is done filling in the date.
+     */
+    public interface OnDateSetListener {
+
+        /**
+         * @param dialog      The view associated with this listener.
+         * @param year        The year that was set.
+         * @param monthOfYear The month that was set (0-11) for compatibility
+         *                    with {@link java.util.Calendar}.
+         * @param dayOfMonth  The day of the month that was set.
+         */
+        void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth);
+    }
+
+    /**
+     * The callback used to notify other date picker components of a change in selected date.
+     */
+    public interface OnDateChangedListener {
+
+        public void onDateChanged();
     }
 }
