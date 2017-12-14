@@ -3,7 +3,7 @@
     package="ktk.em_projects.com.ktk">
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="17"
         android:targetSdkVersion="20" />
 
     <permission
