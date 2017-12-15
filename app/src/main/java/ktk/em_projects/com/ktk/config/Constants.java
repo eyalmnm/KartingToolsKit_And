@@ -28,6 +28,7 @@ public class Constants {
         //        public static final String OPEN_WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather";
         public static final String OPEN_WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast";
         public static final String APP_ID = "d01678b905c2f27099ba0ad7b5d68e32";
+        public static final String ICON_URL = "http://openweathermap.org/img/w/";
     }
 
     public static class ROTAX_FR125_MAX_JET_TUNING_CHART {
