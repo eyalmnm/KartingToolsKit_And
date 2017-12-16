@@ -1,22 +1,21 @@
 package ktk.em_projects.com.ktk.ui.main_screen;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
@@ -38,6 +37,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -55,19 +55,25 @@ import java.util.List;
 
 import ktk.em_projects.com.ktk.R;
 import ktk.em_projects.com.ktk.config.Constants;
-import ktk.em_projects.com.ktk.objects.HourlyWeatherInfo;
-import ktk.em_projects.com.ktk.objects.WeatherInfo;
+import ktk.em_projects.com.ktk.objects.weather.HourlyWeatherInfo;
 import ktk.em_projects.com.ktk.ui.widgets.smoothprogressbar.SmoothProgressBar;
 import ktk.em_projects.com.ktk.ui.widgets.viewpagerindicator.CirclePageIndicator;
+import ktk.em_projects.com.ktk.utils.DistanceCalculator;
 import ktk.em_projects.com.ktk.utils.JSONUtils;
 import ktk.em_projects.com.ktk.utils.LocationUtils;
 import ktk.em_projects.com.ktk.utils.NumberUtils;
 import ktk.em_projects.com.ktk.utils.PreferncesUtil;
 import ktk.em_projects.com.ktk.utils.StringUtils;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 /**
  * Created by E M on 19/01/2015.
  */
+
+// world weather online & www.apixu.com Pwd
+// Y2VYR*gD
 
 // http://stackoverflow.com/questions/6690402/android-string-format-price
 // https://guides.codepath.com/android/Implementing-a-Horizontal-ListView-Guide
@@ -118,10 +124,12 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
     /* GPS Constant Permission */
     private static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private static final int MY_PERMISSION_ACCESS_FINE_LOCATION = 12;
+    private static final int PERMISSION_REQUEST_CODE = 200;
 
     /* Position */
     private static final int MINIMUM_TIME = 10000;  // 10s
     private static final int MINIMUM_DISTANCE = 50; // 50m
+    private static final long HOURS_IN_MILIS = 3600 * 1000;
 
     private SmoothProgressBar smoothProgressbar;
     private TextView latitudeTextView;
@@ -147,6 +155,7 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
     private double alt = 0;
     private String addressStr;
     private LocationListener locationListener;
+    private long lastConnectionTimeMillis;
 
     private Context context;
 
@@ -174,7 +183,6 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
 
         smoothProgressbar = (SmoothProgressBar) findViewById(R.id.smoothProgressbar);
 
-        initLocationProvider();
         fm = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         // Getting reference to google map
         // http://stackoverflow.com/questions/31371865/replace-getmap-with-getmapasync
@@ -220,100 +228,125 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
             }
         });
 
+        if (android.os.Build.VERSION.SDK_INT >= 23) {   //Android M Or Over
+            if (!checkPermissions()) {
+                requestPermission();
+            } else {
+                initLocationComponents();
+            }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private boolean checkPermissions() {
+        int locationCoarse = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_COARSE_LOCATION);
+        int locationFine = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION);
+
+        return locationCoarse == PackageManager.PERMISSION_GRANTED && locationFine == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_COARSE_LOCATION,
+                ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+                    boolean corseLocationRes = grantResults[8] == PackageManager.PERMISSION_GRANTED;
+                    boolean fineLocationRes = grantResults[9] == PackageManager.PERMISSION_GRANTED;
+                    if (corseLocationRes && fineLocationRes) {
+                        initLocationComponents();
+                    } else {
+                        Toast.makeText(context, "Permission Denied, You cannot access the application.", Toast.LENGTH_LONG).show();
+                        if (!hasPermissions(context, ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION)) {
+                            Toast.makeText(context, "You need to allow access to all the permissions", Toast.LENGTH_LONG).show();
+                            requestPermission();
+                        }
+                    }
+                }
+        }
+    }
+
+    public boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void initLocationComponents() {
         initLocation();
+        initCurrentLocation();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+        setMyLocation(lat, lng);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        initLocationProvider();
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        try {
-            if (locationListener != null) {
-                locationManager.requestLocationUpdates(provider, 400l, 1f,
-                        locationListener);
-                locationManager.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER, 10 * 1000, (float) 10.0,
-                        locationListener);
-                locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 90 * 1000, (float) 10.0,
-                        locationListener);
+    @SuppressLint("MissingPermission")
+    private void initCurrentLocation() {
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        Location locations = getLastKnownLocation(); // locationManager.getLastKnownLocation(provider);
+        List<String> providerList = locationManager.getAllProviders();
+        if (null != locations && null != providerList && providerList.size() > 0) {
+            lng = locations.getLongitude();
+            lat = locations.getLatitude();
+            alt = locations.getAltitude();
+        }
+
+        if (false == StringUtils.isNullOrEmpty(provider)) {
+            locationManager.requestLocationUpdates(provider, MINIMUM_TIME, MINIMUM_DISTANCE, locationListener);
+            try {
+                if (locationListener != null) {
+                    locationManager.requestLocationUpdates(provider, 400l, 1f,
+                            locationListener);
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER, 10 * 1000, (float) 10.0,
+                            locationListener);
+                    locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER, 90 * 1000, (float) 10.0,
+                            locationListener);
+                }
+            } catch (SecurityException e) {
+                dialogGPS(this); // lets the user know there is a problem with the gps
             }
-        } catch (SecurityException e) {
+        } else {
             dialogGPS(this); // lets the user know there is a problem with the gps
         }
-        //        smoothProgressbar.setVisibility(View.GONE);
+
+        initWeather(new LatLng(lat, lng));
+        setMyLocation(lat, lng);
     }
 
-    private void initLocationProvider() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-        if (provider == null)
-            return;
-
-        Location location;
-
-        // API 23: we have to check if ACCESS_FINE_LOCATION and/or ACCESS_COARSE_LOCATION permission are granted
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            // No one provider activated: prompt GPS
-            if (true == StringUtils.isNullOrEmpty(provider)) {
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+    @SuppressLint("MissingPermission")
+    private Location getLastKnownLocation() {
+        LocationManager mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
             }
-
-            // At least one provider activated. Get the coordinates
-            switch (provider) {
-                case "passive":
-                    locationManager.requestLocationUpdates(provider, MINIMUM_TIME, MINIMUM_DISTANCE, locationListener);
-                    location = locationManager.getLastKnownLocation(provider);
-                    break;
-                case "network":
-                    break;
-                case "gps":
-                    break;
-            }
-
-            // One or both permissions are denied.
-        } else {
-
-            // The ACCESS_COARSE_LOCATION is denied, then I request it and manage the result in
-            // onRequestPermissionsResult() using the constant MY_PERMISSION_ACCESS_FINE_LOCATION
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSION_ACCESS_COARSE_LOCATION);
-            }
-            // The ACCESS_FINE_LOCATION is denied, then I request it and manage the result in
-            // onRequestPermissionsResult() using the constant MY_PERMISSION_ACCESS_FINE_LOCATION
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSION_ACCESS_FINE_LOCATION);
-            }
-
-        }
-
-        if (null != locationManager) {
-            location = locationManager.getLastKnownLocation(provider);
-            if (location != null) {
-                lat = location.getLatitude();
-                lng = location.getLongitude();
-                alt = location.getAltitude();
-                setMyLocation(location.getLatitude(), location.getLongitude());
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
             }
         }
+        return bestLocation;
     }
+
 
     private void setMyLocation(double latitude, double longitude) {
         if (googleMap == null)
@@ -352,7 +385,7 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
         CameraUpdate updatePosition = CameraUpdateFactory.newLatLng(position);
 
         // Creating CameraUpdate object for zoom
-        CameraUpdate updateZoom = CameraUpdateFactory.zoomBy(6);
+        CameraUpdate updateZoom = CameraUpdateFactory.zoomBy(3);
 
         // Updating the camera position to the user input latitude and longitude
         googleMap.moveCamera(updatePosition);
@@ -388,15 +421,23 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
 
             @Override
             public void onLocationChanged(Location location) {
-                lat = location.getLatitude();
-                lng = location.getLongitude();
-                alt = location.getAltitude();
-                latitudeTextView.setText("Lat: " + StringUtils.convertDoubleToFormat(lat));
-                longitudeTextView.setText("Lng: " + StringUtils.convertDoubleToFormat(lng));
-                altitudeTextView.setText("Alt: " + (int) alt + "m/" + ((int) LocationUtils.convertMeterToFeet((float) alt)) + "ft");
+                double lat = location.getLatitude();
+                double lng = location.getLongitude();
+                double alt = location.getAltitude();
                 setMyLocation(lat, lng);
-                Log.d(TAG, "onLocationChanged lat: " + lat + " lng: " + lng + " alt: " + alt);
-                initWeather(new LatLng(lat, lng));
+                double distance = DistanceCalculator.distance(WeatherScreen.this.lat, WeatherScreen.this.lng, lat, lng, "K");
+                long timeDiff = System.currentTimeMillis() - lastConnectionTimeMillis;
+                if (10 < distance && HOURS_IN_MILIS < timeDiff) {
+                    WeatherScreen.this.alt = alt;
+                    WeatherScreen.this.lat = lat;
+                    WeatherScreen.this.lng = lng;
+                    latitudeTextView.setText("Lat: " + StringUtils.convertDoubleToFormat(lat));
+                    longitudeTextView.setText("Lng: " + StringUtils.convertDoubleToFormat(lng));
+                    altitudeTextView.setText("Alt: " + (int) alt + "m/" + ((int) LocationUtils.convertMeterToFeet((float) alt)) + "ft");
+                    setMyLocation(lat, lng);
+                    Log.d(TAG, "onLocationChanged lat: " + lat + " lng: " + lng + " alt: " + alt);
+                    initWeather(new LatLng(lat, lng));
+                }
             }
         };
     }
@@ -416,29 +457,74 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    parseData(lastWeather);
+                    try {
+                        parseWeather(lastWeather);
+                    } catch (JSONException e) {
+                        Log.e(TAG, "initWeather", e);
+                    }
                 }
             });
         }
     }
 
-    private void parseData(String weatherData) {
-        try {
-            JSONObject allWeatherObject = new JSONObject(weatherData);
-            JSONObject dataJsonObject = JSONUtils.getJSONObjectValue(allWeatherObject, "data");
-            JSONArray weatherInfoArray = JSONUtils.getJsonArray(dataJsonObject, "weather");
-            ArrayList<WeatherInfo> tempWeatherInfo = new ArrayList<WeatherInfo>();
-            for (int i = 0; i < weatherInfoArray.length(); i++) {
-                tempWeatherInfo.add(new WeatherInfo(weatherInfoArray.getJSONObject(i)));
-            }
-
+    private void parseWeather(String allWeatherJsonStr) throws JSONException {
+        if (false == StringUtils.isNullOrEmpty(allWeatherJsonStr)) {
             hourluWeatherItemsArrayList.clear();
-            hourluWeatherItemsArrayList.addAll(tempWeatherInfo.get(0).getHourlyWeatherInfos());
-            weatherItemsAdapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            Log.e(TAG, "initWeather", e);
+            JSONObject rootJsonObject = new JSONObject(allWeatherJsonStr);
+
+            // Get the number of hourly weather object
+            int counter = JSONUtils.getIntValue(rootJsonObject, "cnt");
+            if (0 < counter) {
+                JSONArray listJsonArray = JSONUtils.getJsonArray(rootJsonObject, "list");
+                for (int i = 0; i < counter; i++) {
+                    JSONObject hourlyJsonObject = (JSONObject) listJsonArray.get(i);
+                    parseHourlyWeather(hourlyJsonObject);
+                }
+            }
+            if (null != weatherItemsAdapter) {
+                weatherItemsAdapter.notifyDataSetChanged();
+            }
         }
     }
+
+    private void parseHourlyWeather(JSONObject rootObject) throws JSONException {
+        float tempK;
+        int humidity;
+        float pressure;
+        String weatherIcon;
+        String description;
+        float windSpeedMPSec;
+        int windDirDegree;
+        String timeUtcStr;
+
+        int windSpeedKmph;
+
+        JSONObject mainJsonObject = JSONUtils.getJSONObjectValue(rootObject, "main");
+        tempK = JSONUtils.getFloatValue(mainJsonObject, "temp");
+        pressure = JSONUtils.getFloatValue(mainJsonObject, "pressure");
+        humidity = JSONUtils.getIntValue(mainJsonObject, "humidity");
+
+        JSONArray weatherJsonArray = JSONUtils.getJsonArray(rootObject, "weather");
+        JSONObject weatherItem = (JSONObject) weatherJsonArray.get(0);
+        description = JSONUtils.getStringValue(weatherItem, "description");
+        weatherIcon = JSONUtils.getStringValue(weatherItem, "icon");
+
+        JSONObject windJsonObject = JSONUtils.getJSONObjectValue(rootObject, "wind");
+        windSpeedMPSec = JSONUtils.getFloatValue(windJsonObject, "speed");
+        windDirDegree = JSONUtils.getIntValue(windJsonObject, "deg");
+
+        timeUtcStr = JSONUtils.getStringValue(rootObject, "dt_txt");
+
+        // Conventions
+        windSpeedKmph = (int) (windSpeedMPSec * 3600 / 1000);
+        float tempC = tempK - 272.15F;
+
+        hourluWeatherItemsArrayList.add(new HourlyWeatherInfo(tempC, weatherIcon, timeUtcStr, pressure, windSpeedKmph, windDirDegree, humidity, description));
+        if (null != weatherItemsAdapter) {
+            weatherItemsAdapter.notifyDataSetChanged();
+        }
+    }
+
 
     private void updateWeather(LatLng latLng) {
         runOnUiThread(new Runnable() {
@@ -452,14 +538,16 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
     }
 
     // http://api.worldweatheronline.com/free/v2/weather.ashx?key=d92ab390772883f427af7737698a7&q=48.85,2.35&num_of_days=2&tp=1&format=json
+    // Forecast weather - api.openweathermap.org/data/2.5/forecast?lat=35&lon=139
+    // Current weather - api.openweathermap.org/data/2.5/weather?lat=35&lon=139
     private String formatWeatherRequest(LatLng latLng) {
-        StringBuilder stringBuilder = new StringBuilder(Constants.WORLD_WEATHER_ONLINE.URL);
-        stringBuilder.append("?key=" + Constants.WORLD_WEATHER_ONLINE.KEY);
-        stringBuilder.append("&q=" + latLng.latitude + "," + latLng.longitude);
-        stringBuilder.append("&num_of_days=" + 1);
-        stringBuilder.append("&tp=" + 1);
-        stringBuilder.append("&format=" + "json");
-        String request = stringBuilder.toString();
+        StringBuilder requestBuilder = new StringBuilder(Constants.OPEN_WEATHER_MAP.OPEN_WEATHER_URL);
+        requestBuilder.append("?");
+        requestBuilder.append("lat=" + latLng.latitude);
+        requestBuilder.append("&lon=" + latLng.longitude);
+        requestBuilder.append("&cnt=8"); // 24 hours
+        requestBuilder.append("&APPID=" + Constants.OPEN_WEATHER_MAP.APP_ID);
+        String request = requestBuilder.toString();
         Log.d(TAG, "formatWeatherRequest: " + request);
         return request;
     }
@@ -484,7 +572,7 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
                 dialog.dismiss();
             }
         });
-        gpsDialog.show();
+//        gpsDialog.show();
     }
 
     // Ref: http://stackoverflow.com/questions/6894234/stop-location-listener-in-android
@@ -549,17 +637,14 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
 
     class WeatherAsyncTask extends AsyncTask<String, Void, String> {
 
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
         @Override
         protected String doInBackground(String... urls) {
             try {
-                //------------------>>
                 HttpGet httppost = new HttpGet(urls[0]);
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpResponse response = httpclient.execute(httppost);
@@ -568,19 +653,16 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
                 int status = response.getStatusLine().getStatusCode();
 
                 if (status == 200) {
+                    lastConnectionTimeMillis = System.currentTimeMillis();
                     HttpEntity entity = response.getEntity();
                     String data = EntityUtils.toString(entity);
-
                     return data;
                 }
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return "";
         }
-
 
         protected void onPostExecute(String result) {
             smoothProgressbar.setVisibility(View.GONE);
@@ -588,7 +670,11 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
             PreferncesUtil.setLatitude(context, lat);
             PreferncesUtil.setLongitude(context, lng);
             PreferncesUtil.setWeather(context, result);
-            parseData(result);
+            try {
+                parseWeather(result);
+            } catch (JSONException e) {
+                Log.e(TAG, "WeatherAsyncTask onPostExecute", e);
+            }
         }
     }
 
@@ -612,6 +698,7 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
             TextView cTempTextView = (TextView) view.findViewById(R.id.cTempTextView);
             TextView fTempTextView = (TextView) view.findViewById(R.id.fTempTextView);
             ImageView weatherIconImageView = (ImageView) view.findViewById(R.id.weatherIconImageView);
+            TextView weatherDescription = (TextView) view.findViewById(R.id.weatherDescription);
             TextView timeTextView = (TextView) view.findViewById(R.id.timeTextView);
             TextView pressureTextView = (TextView) view.findViewById(R.id.pressureTextView);
             TextView windSpeedTextView = (TextView) view.findViewById(R.id.windSpeedTextView);
@@ -619,18 +706,17 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
             TextView jetTextView = (TextView) view.findViewById(R.id.jetTextView);
 
             HourlyWeatherInfo hourInfo = hourluWeatherItemsArrayList.get(position);
-            cTempTextView.setText(String.valueOf(hourInfo.getTempC()));
-            fTempTextView.setText(String.valueOf(hourInfo.getTempF()));
-            if (hourInfo.getWeatherIconIcon() != null) {
-                weatherIconImageView.setImageBitmap(hourInfo.getWeatherIconIcon());
-            } else {
-                hourInfo.loadImage(this);
-            }
+            cTempTextView.setText(String.valueOf((int) hourInfo.getTempC()));
+            fTempTextView.setText(String.valueOf((int) hourInfo.getTempF()));
+            Picasso.with(context)
+                    .load(hourInfo.getWeatherIconUrlStr())
+                    .into(weatherIconImageView);
             timeTextView.setText(hourInfo.getTime());
-            pressureTextView.setText(hourInfo.getPressure() + "mb");
-            windSpeedTextView.setText(hourInfo.getWindspeedKmph() + "Kph/" + hourInfo.getWindspeedMiles() + "Mph");
-            windDirTextView.setText(hourInfo.getWinddirDegree() + "/" + hourInfo.getWinddir16Point());
-            int jetValue = getJetValue(hourInfo.getPressure(), hourInfo.getTempC());
+            weatherDescription.setText(String.valueOf(hourInfo.getDescription()));
+            pressureTextView.setText(String.valueOf((int) hourInfo.getPressure()) + "mb");
+            windSpeedTextView.setText(String.valueOf(hourInfo.getWindSpeedKmph()) + "Kph/" + String.valueOf(hourInfo.getWindSpeedMiles()) + "Mph");
+            windDirTextView.setText(String.valueOf(hourInfo.getWindDirDegree()));
+            int jetValue = getJetValue((int) hourInfo.getPressure(), hourInfo.getTempC());
             String jatValueStr = jetValue == 0 ? "Middle" : jetValue + "";
             jetTextView.setText(jatValueStr);
             ((ViewPager) collection).addView(view, 0);
