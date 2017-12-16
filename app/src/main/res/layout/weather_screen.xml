@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/ktk.em_projects.com.ktk"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -8,9 +8,9 @@
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:paddingRight="5dp"
+    android:paddingBottom="5dp"
     android:paddingLeft="5dp"
-    android:paddingBottom="5dp">
+    android:paddingRight="5dp">
     <!-- android:layout_marginTop="@dimen/activity_horizontal_margin" -->
 
     <TextView
@@ -39,30 +39,33 @@
         android:layout_above="@id/middleOne"
         android:layout_below="@id/screenTitleTextView"
         android:layout_marginBottom="10dp" />
-    
-    <Button 
+
+    <Button
         android:id="@+id/terrainButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/middleOne"
         android:layout_alignParentLeft="true"
-        android:text="@string/map_terrain" />
-    
-    <Button 
+        android:text="@string/map_terrain"
+        android:visibility="gone" />
+
+    <Button
         android:id="@+id/normalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/middleOne"
         android:layout_centerHorizontal="true"
-        android:text="@string/map_normal" />
-    
-    <Button 
+        android:text="@string/map_normal"
+        android:visibility="gone" />
+
+    <Button
         android:id="@+id/satteliteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/middleOne"
         android:layout_alignParentRight="true"
-        android:text="@string/map_satellite" />
+        android:text="@string/map_satellite"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/latitudeTextView"
@@ -105,11 +108,11 @@
 
     <ktk.em_projects.com.ktk.ui.widgets.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
-        android:padding="10dip"
-        android:layout_height="wrap_content"
         android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="5dp"
+        android:padding="10dip"
         app:fillColor="@color/holo_red_dark"
         app:strokeColor="@color/dark_gray" />
 
@@ -119,8 +122,8 @@
         style="@style/GNowProgressBar"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:indeterminate="true"
         android:layout_alignParentTop="true"
+        android:indeterminate="true"
         android:indeterminateOnly="false" />
 
 </RelativeLayout>
