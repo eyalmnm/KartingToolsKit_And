@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -37,7 +37,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -325,8 +324,15 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
             dialogGPS(this); // lets the user know there is a problem with the gps
         }
 
+        updateMyLoaction(lat, lng, alt);
         initWeather(new LatLng(lat, lng));
         setMyLocation(lat, lng);
+    }
+
+    private void updateMyLoaction(double lat, double lng, double alt) {
+        longitudeTextView.setText(String.valueOf(lng));
+        latitudeTextView.setText(String.valueOf(lat));
+        altitudeTextView.setText(String.valueOf(alt));
     }
 
     @SuppressLint("MissingPermission")
@@ -381,17 +387,8 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
         // Adding Marker on the Google Map
         googleMap.addMarker(options);
 
-        // Creating CameraUpdate object for position
-        CameraUpdate updatePosition = CameraUpdateFactory.newLatLng(position);
-
-        // Creating CameraUpdate object for zoom
-        CameraUpdate updateZoom = CameraUpdateFactory.zoomBy(3);
-
         // Updating the camera position to the user input latitude and longitude
-        googleMap.moveCamera(updatePosition);
-
-        // Applying zoom to the marker position
-        googleMap.animateCamera(updateZoom);
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 15.0f));
 
         smoothProgressbar.setVisibility(View.GONE);
     }
@@ -708,7 +705,7 @@ public class WeatherScreen extends Activity implements OnMapReadyCallback {
             HourlyWeatherInfo hourInfo = hourluWeatherItemsArrayList.get(position);
             cTempTextView.setText(String.valueOf((int) hourInfo.getTempC()));
             fTempTextView.setText(String.valueOf((int) hourInfo.getTempF()));
-            Picasso.with(context)
+            Glide.with(context)
                     .load(hourInfo.getWeatherIconUrlStr())
                     .into(weatherIconImageView);
             timeTextView.setText(hourInfo.getTime());

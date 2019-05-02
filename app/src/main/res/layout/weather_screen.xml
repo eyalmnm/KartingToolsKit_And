@@ -75,6 +75,9 @@
         android:layout_below="@id/map"
         android:layout_marginBottom="15dp"
         android:text="latitude"
+        android:ellipsize="end"
+        android:maxLength="10"
+        android:maxLines="1"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="14sp" />
 
@@ -84,6 +87,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/latitudeTextView"
         android:layout_centerHorizontal="true"
+        android:ellipsize="end"
+        android:maxLength="10"
+        android:maxLines="1"
         android:text="longitude"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="14sp" />
@@ -94,6 +100,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/latitudeTextView"
         android:layout_alignRight="@id/map"
+        android:ellipsize="end"
+        android:maxLength="10"
+        android:maxLines="1"
         android:text="altitude"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="14sp" />
