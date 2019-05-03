@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,10 +88,10 @@ public class TimeEntryFragment extends DialogFragment {
                                           public void onClick(View v) {
 
                                               //Exit app
-                                              Intent i = new Intent();
-                                              i.setAction(Intent.ACTION_MAIN);
-                                              i.addCategory(Intent.CATEGORY_HOME);
-                                              appContext.startActivity(i);
+//                                              Intent i = new Intent();
+//                                              i.setAction(Intent.ACTION_MAIN);
+//                                              i.addCategory(Intent.CATEGORY_HOME);
+//                                              appContext.startActivity(i);
                                               dismiss();
                                           }
                                       }
